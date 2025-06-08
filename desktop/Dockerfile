@@ -6,7 +6,6 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 
 # 安装 7za（7-Zip 命令行工具）
 RUN apk add --no-cache p7zip
-
 # ================= Stage 2: 安装 node-pty ================
 FROM base AS deps-node-pty
 
