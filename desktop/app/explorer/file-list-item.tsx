@@ -49,7 +49,7 @@ const FileListItem = ({ files, currentPath }: { files: File[]; currentPath: stri
         />
         <FileItemCheckbox hrefDir={path.join(currentPath || 'explorer', file.name)} />
         {file.isDirectory ? (
-          <Link href={path.join(currentPath || 'explorer', encodeURIComponent(file.name))}>
+          <Link href={path.join('/explorer', currentPath, encodeURIComponent(file.name))}>
             <CardItem />
           </Link>
         ) : (
