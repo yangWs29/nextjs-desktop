@@ -20,7 +20,7 @@ export function FileItemIcon(file: File) {
       {file.isDirectory ? (
         <FolderOpenOutlined style={{ fontSize: '30px', marginBottom: '8px' }} />
       ) : isImage(file.name) ? (
-        <ImageItem file_path={path.join(file.dirPath, encodeURIComponent(file.name))} />
+        <ImageItem file_path={path.join(file.dirPath, file.name)} />
       ) : (
         <FileOutlined style={{ fontSize: '30px', marginBottom: '8px' }} />
       )}

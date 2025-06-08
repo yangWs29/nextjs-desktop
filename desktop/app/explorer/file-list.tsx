@@ -16,9 +16,7 @@ const FileList = async ({ currentPath = '' }: { currentPath: string }) => {
       }}
     >
       <ImagePreviewProvider
-        images={files
-          .filter((file) => isImage(file.name))
-          .map((file) => path.join(file.dirPath, encodeURIComponent(file.name)))}
+        images={files.filter((file) => isImage(file.name)).map((file) => path.join(file.dirPath, file.name))}
       >
         <FileListItem files={files} currentPath={currentPath} />
       </ImagePreviewProvider>

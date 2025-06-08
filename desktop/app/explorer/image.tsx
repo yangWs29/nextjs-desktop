@@ -42,6 +42,8 @@ export const usePreview = () => {
 export const ImagePreviewGroup = () => {
   const { previewSrc, images, openPreview, closePreview } = usePreview()
 
+  console.log({ images, previewSrc })
+
   const current = images.findIndex((image) => image === previewSrc)
 
   return (
@@ -58,7 +60,7 @@ export const ImagePreviewGroup = () => {
           !visible && closePreview()
         },
       }}
-      items={images.map((file_name) => `/explorer/api/files?path=${file_name}`)}
+      items={images.map((file_path) => `/explorer/api/files?path=${encodeURIComponent(file_path)}`)}
     />
   )
 }
@@ -71,7 +73,7 @@ export const ImageItem = ({ file_path }: { file_path: string }) => {
       <ImagePreviewGroup />
       <Image
         onClick={() => openPreview(file_path)}
-        src={`/explorer/api/files?path=${file_path}`}
+        src={`/explorer/api/files?path=${encodeURIComponent(file_path)}`}
         alt={file_path}
         fill // 填充父容器
         style={{
