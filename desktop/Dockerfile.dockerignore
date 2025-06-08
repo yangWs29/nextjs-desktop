@@ -1,0 +1,12 @@
+.idea
+.git
+
+**.Dockerfile
+**.dockerignore
+
+**/node_modules
+**/npm-debug.log
+
+**/.next
+**/README.md
+**/.env.*

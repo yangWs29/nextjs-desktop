@@ -1,0 +1,85 @@
+'use client'
+import PreviewGroup from 'antd/es/image/PreviewGroup'
+import Image from 'next/image'
+import React, { createContext, useContext, useState } from 'react'
+
+type PreviewContextType = {
+  openPreview: (src: string) => void
+  closePreview: () => void
+  previewSrc: string | null
+  images: string[]
+}
+
+const PreviewContext = createContext<PreviewContextType | null>(null)
+
+export const ImagePreviewProvider = ({ children, images }: { children: React.ReactNode; images: string[] }) => {
+  const [previewSrc, setPreviewSrc] = useState<string | null>(null)
+
+  return (
+    <PreviewContext.Provider
+      value={{
+        openPreview: (src) => setPreviewSrc(src),
+        closePreview: () => setPreviewSrc(null),
+        previewSrc: previewSrc,
+        images: images,
+      }}
+    >
+      {children}
+    </PreviewContext.Provider>
+  )
+}
+
+export const usePreview = () => {
+  const context = useContext(PreviewContext)
+
+  if (!context) {
+    throw new Error('usePreview must be used within a PreviewProvider')
+  }
+
+  return context
+}
+
+export const ImagePreviewGroup = () => {
+  const { previewSrc, images, openPreview, closePreview } = usePreview()
+
+  const current = images.findIndex((image) => image === previewSrc)
+
+  return (
+    <PreviewGroup
+      preview={{
+        visible: !!previewSrc,
+        getContainer: 'body',
+        current,
+        onChange: (current) => {
+          console.log(images[current])
+          openPreview(images[current])
+        },
+        onVisibleChange: (visible) => {
+          !visible && closePreview()
+        },
+      }}
+      items={images.map((file_name) => `/explorer/api/files?path=${file_name}`)}
+    />
+  )
+}
+
+export const ImageItem = ({ file_path }: { file_path: string }) => {
+  const { openPreview } = usePreview()
+
+  return (
+    <>
+      <ImagePreviewGroup />
+      <Image
+        onClick={() => openPreview(file_path)}
+        src={`/explorer/api/files?path=${file_path}`}
+        alt={file_path}
+        fill // 填充父容器
+        style={{
+          objectFit: 'cover', // 或 'contain'
+          cursor: 'pointer', // 添加手指样式
+        }}
+        sizes="(max-width: 768px) 100vw, 50vw" // 响应式尺寸提示
+      />
+    </>
+  )
+}
