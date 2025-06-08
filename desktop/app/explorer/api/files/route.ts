@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const fullPath = path.join(app_config.explorer_base_path, filePath)
+    const fullPath = path.join(app_config.explorer_base_path, decodeURIComponent(filePath))
     const data = await fs.readFile(fullPath)
 
     // 设置正确的 Content-Type
