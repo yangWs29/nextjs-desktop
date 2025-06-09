@@ -1,9 +1,9 @@
 import fs from 'fs'
 import path from 'path'
 import { NextRequest } from 'next/server'
-
-// 读取 base path（可选：从配置文件中读取）
+import { Readable } from 'stream'
 import { app_config } from '@/app-config.mjs'
+import { parseRangeHeader } from '@/app/explorer/api/files/parse-range-header'
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
@@ -38,63 +38,54 @@ export async function GET(request: NextRequest) {
         '.jpeg': 'image/jpeg',
         '.gif': 'image/gif',
         '.mp4': 'video/mp4',
+        '.webm': 'video/webm',
+        '.ogg': 'video/ogg',
+        '.mov': 'video/quicktime',
+        '.avi': 'video/x-msvideo',
+        '.wmv': 'video/x-ms-wmv',
+        '.flv': 'video/x-flv',
+        '.mkv': 'video/x-matroska',
         '.pdf': 'application/pdf',
         '.txt': 'text/plain',
       }[ext] || 'application/octet-stream'
-
     const fileStat = await fs.promises.stat(fullPath)
 
-    const option: { start?: number; end?: number } = {}
+    // ✅ 解析 Range 请求
+    let rangeData = null
 
-    const range = request.headers.get('Range') || ''
-    let rangeHeaders = {}
-
-    if (range) {
-      const positions = range.replace(/bytes=/, '').split('-')
-      const start = positions[0] ? parseInt(positions[0], 10) : 0
-      const total = fileStat.size
-      const end = positions[1] ? parseInt(positions[1], 10) : total - 1
-      const chunk_size = end - start + 1
-
-      rangeHeaders = {
-        'Accept-Ranges': 'bytes',
-        'Content-Range': `bytes ${start}-${end}/${total}`,
-        'Content-Length': chunk_size.toString(),
+    try {
+      rangeData = parseRangeHeader(request, fileStat.size)
+    } catch (e) {
+      if (e instanceof Response) {
+        return e
       }
-
-      option.start = start
-      option.end = end
+      return new Response('Internal Server Error', { status: 500 })
     }
 
     // ✅ 创建可读流
-    const fileStream = fs.createReadStream(fullPath, option)
+    const fileStream = fs.createReadStream(fullPath, { start: rangeData?.start, end: rangeData?.end })
+
+    const headers: Record<string, string> = {
+      'Content-Type': contentType,
+      'Content-Disposition': `filename=${encodeURIComponent(path.basename(fullPath)) || 'download'}`,
+      'Cache-Control': 'public, max-age=31536000, immutable',
+      ETag: Buffer.from(fullPath, 'utf-8').toString('base64'),
+      'Last-Modified': fileStat.mtime.toUTCString(),
+    }
+
+    // ✅ 合并 rangeHeaders（如果存在）
+    if (rangeData) {
+      Object.entries(rangeData.headers).forEach(([key, value]) => {
+        headers[key] = value
+      })
+    }
 
     // ✅ 将 Node.js 流转换为 Web ReadableStream
-    const readableStream = new ReadableStream({
-      start(controller) {
-        fileStream.on('data', (chunk) => {
-          controller.enqueue(chunk)
-        })
-        fileStream.on('end', () => {
-          controller.close()
-        })
-        fileStream.on('error', (err) => {
-          controller.error(err)
-        })
-      },
-    })
+    const webStream = Readable.toWeb(fileStream) as ReadableStream
     // ✅ 返回流式响应
-    return new Response(readableStream, {
-      status: 200,
-      headers: {
-        'Content-Type': contentType,
-        'Content-Disposition': `filename=${encodeURIComponent(path.basename(fullPath)) || 'download'}`,
-        'Cache-Control': 'public, max-age=31536000, immutable',
-        ETag: Buffer.from(fullPath).toString('base64'),
-        'Content-Length': fileStat.size.toString(),
-        'Last-Modified': fileStat.mtime.toUTCString(),
-        ...rangeHeaders,
-      },
+    return new Response(webStream, {
+      status: rangeData ? 206 : 200,
+      headers,
     })
   } catch (error: any) {
     console.error('Error reading file:', error)
