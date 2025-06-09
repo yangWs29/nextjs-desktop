@@ -6,3 +6,14 @@ export function formatFileSize(bytes: number): string {
   if (mb < 1024) return mb.toFixed(2) + ' MB'
   return (mb / 1024).toFixed(2) + ' GB'
 }
+
+export function pathJoin(...arg: string[]) {
+  return (
+    '/' +
+    arg
+      .join('/')
+      .split('/')
+      .filter((item) => Boolean(item.trim()))
+      .join('/')
+  )
+}

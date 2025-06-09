@@ -1,3 +1,4 @@
+// more-actions-modal.tsx
 'use client'
 import { MoreOutlined } from '@ant-design/icons'
 import { Button, Drawer, Form, Input, Select, Space, Switch } from 'antd'
@@ -7,15 +8,15 @@ import TerminalClient from '@/app/explorer/terminal-client'
 import { getSocket } from '@/app/explorer/socket'
 import { useTerminal } from '@/app/explorer/terminal-context'
 import BtnTreeSelectDir from '@/app/explorer/btn-tree-select-dir'
+import { pathJoin } from '@/app/explorer/file-utils'
 
 const MoreActionsModal = ({
   file,
   currentPath,
-  baseDir,
+  baseDir = '/',
 }: {
   currentPath: string
   file: File
-  hrefDir: string
   baseDir?: string
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -35,14 +36,20 @@ const MoreActionsModal = ({
         const action = values.preview ? 'l' : 'x' // 'l' 是查看列表，'x' 是解压缩
         const command = ['7z', action, `-p${values.password || ''}`, values.filename]
 
-        // 预览时不添加 -o 参数
         if (!values.preview) {
           command.push(`-o${baseDir}${values.savePath}`)
         }
 
-        console.log(command.join(' '))
+        socket.emit('terminal-input', command.join(' '))
+        terminal?.current?.focus()
+      } else if (values.action === 'move') {
+        const sourcePath = `${pathJoin(baseDir, currentPath, file.name)}`
+        const targetPath = `${pathJoin(baseDir, values.moveTarget)}`
 
-        socket.emit('terminal-input', `${command.join(' ')}`)
+        // 示例：使用 Node.js 或 shell 命令执行文件移动
+        const command = `mv "${sourcePath}" "${targetPath}"`
+
+        socket.emit('terminal-input', command)
         terminal?.current?.focus()
       }
     })
@@ -72,14 +79,8 @@ const MoreActionsModal = ({
 
       <Drawer
         styles={{
-          header: {
-            height: 40,
-          },
-          body: {
-            display: 'flex',
-            flexDirection: 'column',
-            overflow: 'hidden',
-          },
+          header: { height: 40 },
+          body: { display: 'flex', flexDirection: 'column', overflow: 'hidden' },
         }}
         destroyOnHidden={true}
         height="80%"
@@ -92,11 +93,15 @@ const MoreActionsModal = ({
         <Form form={form} onFinish={handleOk}>
           <Form.Item label="操作" name="action" rules={[{ required: true, message: '请选择一个操作' }]}>
             <Select
-              options={[{ label: '7z 解压缩', value: '7z-extract' }]}
+              options={[
+                { label: '7z 解压缩', value: '7z-extract' },
+                { label: '移动', value: 'move' },
+              ]}
               onChange={handleActionChange}
               placeholder="选择操作"
             />
           </Form.Item>
+
           {selectedAction === '7z-extract' && (
             <>
               <Space style={{ width: '100%' }}>
@@ -131,6 +136,36 @@ const MoreActionsModal = ({
                     <Switch checkedChildren="预览" unCheckedChildren="预览" />
                   </Form.Item>
                 </Space>
+              </Form.Item>
+            </>
+          )}
+
+          {selectedAction === 'move' && (
+            <>
+              <Form.Item label="当前路径">
+                <Input value={pathJoin(baseDir, currentPath, file.name)} placeholder="当前路径" disabled />
+              </Form.Item>
+              <Space style={{ width: '100%' }}>
+                <Form.Item label="目标路径" name="moveTarget" rules={[{ required: true }]}>
+                  <Input
+                    style={{ width: '50vw' }}
+                    placeholder="选择目标路径"
+                    addonAfter={
+                      <BtnTreeSelectDir
+                        baseDir={'/'}
+                        onConfirm={(selectedPath) => {
+                          form.setFieldsValue({ moveTarget: selectedPath })
+                        }}
+                      />
+                    }
+                  />
+                </Form.Item>
+              </Space>
+
+              <Form.Item style={{ textAlign: 'right' }}>
+                <Button type="primary" htmlType="submit">
+                  移动
+                </Button>
               </Form.Item>
             </>
           )}

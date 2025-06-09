@@ -2,7 +2,6 @@ import { Server } from 'socket.io'
 import { spawn } from 'node-pty'
 import { join } from 'path'
 import { app_config } from '@/app-config.mjs'
-import { existsSync } from 'node:fs'
 
 const SocketHandler = (req: any, res: any) => {
   if (!res.socket.server.io) {
@@ -10,10 +9,7 @@ const SocketHandler = (req: any, res: any) => {
     const io = new Server(res.socket.server, { path: '/api/terminal-socket', addTrailingSlash: false })
 
     io.on('connection', (socket) => {
-      const shell =
-        process.platform === 'win32' ? 'cmd' : existsSync('/bin/zsh') ? 'zsh' : existsSync('/bin/bash') ? 'bash' : 'sh'
-
-      const pty = spawn(shell, [], { name: 'xterm-color', cols: 80, rows: 24, cwd: process.env.HOME })
+      const pty = spawn('bash', [], { name: 'xterm-color', cols: 80, rows: 24, cwd: process.env.HOME })
 
       pty.onData((data) => {
         socket.emit('terminal-output', data)
