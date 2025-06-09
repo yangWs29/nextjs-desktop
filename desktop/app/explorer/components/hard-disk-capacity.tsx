@@ -1,6 +1,6 @@
 import { Progress, Space } from 'antd'
-import { formatFileSize } from '@/app/explorer/file-utils'
-import { checkDiskUsage } from '@/app/explorer/disk'
+import { formatFileSize } from '@/app/explorer/utils/file-utils'
+import { checkDiskUsage } from '@/app/explorer/utils/disk'
 
 const HardDiskCapacity = async ({ currentPath = '' }: { currentPath: string }) => {
   const { total, free } = await checkDiskUsage(currentPath)
