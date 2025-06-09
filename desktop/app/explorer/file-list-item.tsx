@@ -9,7 +9,6 @@ import React from 'react'
 import { isPlayableVideo } from '@/app/explorer/media/media-utils'
 
 const FileListItem = ({ files, currentPath }: { files: File[]; currentPath: string }) => {
-  console.log(files)
   return files.map((file, index) => {
     const CardItem = () => (
       <Card
