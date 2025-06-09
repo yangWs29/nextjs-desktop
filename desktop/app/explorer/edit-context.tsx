@@ -1,7 +1,8 @@
+// edit-context.tsx
 'use client'
 import React, { createContext, useState, useContext, useCallback } from 'react'
 import { CloseOutlined, DeleteOutlined, ToolOutlined } from '@ant-design/icons'
-import { App, Button, Card, Checkbox, Space } from 'antd'
+import { App, Button, Card, Checkbox, Modal, Space } from 'antd'
 import { deleteFile } from '@/app/explorer/actions'
 
 type EditContextType = {
@@ -70,15 +71,21 @@ export const FileItemCheckbox = ({ hrefDir }: { hrefDir: string }) => {
     )
   )
 }
+
 export const ActionsBtn = () => {
   const { toggleEdit, edit, files, changeFiles } = useEdit()
   const { message } = App.useApp()
+  const [confirmVisible, setConfirmVisible] = useState(false)
 
-  const handleDelete = async () => {
+  const showConfirm = () => {
     if (files.length === 0) {
-      message.warning('请选择要删除的文件')
+      message.warning('请选择要删除的文件').then()
       return
     }
+    setConfirmVisible(true)
+  }
+
+  const handleDeleteConfirm = async () => {
     const result = await deleteFile(files)
 
     if (result.success) {
@@ -87,13 +94,36 @@ export const ActionsBtn = () => {
     } else {
       message.error(result?.results?.map(({ message }) => message).join(','))
     }
+
+    setConfirmVisible(false)
+  }
+
+  const handleCancel = () => {
+    setConfirmVisible(false)
   }
 
   return (
     <Space>
       {edit && (
         <>
-          <Button icon={<DeleteOutlined />} danger={true} onClick={handleDelete} />
+          <Button icon={<DeleteOutlined />} danger={true} onClick={showConfirm} />
+          <Modal
+            title="确认删除"
+            open={confirmVisible}
+            onOk={handleDeleteConfirm}
+            onCancel={handleCancel}
+            okText="确认删除"
+            cancelText="取消"
+            okButtonProps={{ danger: true }}
+          >
+            <p>你确定要删除以下文件吗？</p>
+            <ul style={{ listStyle: 'disc inside', paddingLeft: 20 }}>
+              {files.map((file, index) => (
+                <li key={index}>{file}</li>
+              ))}
+            </ul>
+            <p style={{ color: '#ff4d4f' }}>此操作不可恢复，请谨慎操作。</p>
+          </Modal>
         </>
       )}
       <Button icon={edit ? <CloseOutlined /> : <ToolOutlined />} onClick={toggleEdit} />

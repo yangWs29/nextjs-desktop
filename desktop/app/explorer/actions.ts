@@ -15,7 +15,7 @@ export async function deleteFile(paths: string[]) {
       const fullPath = path.join(app_config.explorer_base_path, safePath)
       const itemName = path.basename(fullPath)
 
-      if (!safePath.startsWith(app_config.explorer_base_path)) {
+      if (!fullPath.startsWith(app_config.explorer_base_path)) {
         results.push({
           path: itemPath,
           success: false,
@@ -44,6 +44,8 @@ export async function deleteFile(paths: string[]) {
 
         const stats = await fs.stat(fullPath).catch(() => null)
         const itemType = stats?.isDirectory() ? 'directory' : 'file'
+
+        console.log(`${itemType === 'directory' ? '目录' : '文件'} ${itemName} 删除成功`)
 
         results.push({
           path: itemPath,
