@@ -23,7 +23,7 @@ const MoreActionsModal = ({ file, currentPath }: { currentPath: string; file: Fi
     form.validateFields().then((values) => {
       if (values.action === '7z-extract') {
         const action = values.preview ? 'l' : 'x' // 'l' 是查看列表，'x' 是解压缩
-        const command = ['7za', action, `-p${values.password || ''}`, values.filename]
+        const command = ['7z', action, `-p${values.password || ''}`, values.filename]
 
         // 预览时不添加 -o 参数
         if (!values.preview) {

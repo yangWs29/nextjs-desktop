@@ -5,16 +5,10 @@ FROM node:20.10.0-alpine3.19 AS base
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 
 # 安装必要依赖
-RUN apk add --no-cache \
-    libstdc++ \
-    wget \
-    tar
+RUN apk add --no-cache libc6-compat
 
-# 下载并安装 7za
-RUN wget https://sourceforge.net/projects/p7zip/files/p7zip/16.02/p7zip_16.02_x86_linux_bin.tar.bz2/download && \
-    tar xjf p7zip_16.02_x86_64-linu.tar.bz2 && \
-    cp p7zip_16.02/bin/7za /usr/local/bin/ && \
-    rm -rf p7zip_16.02*
+# 下载并安装 7z
+RUN COPY bin/7zzs /usr/local/bin/ && chmod +x /usr/local/bin/7zzs && ln -sf /usr/local/bin/7zzs /usr/local/bin/7z
 # ================= Stage 2: 安装 node-pty ================
 FROM base AS deps-node-pty
 
