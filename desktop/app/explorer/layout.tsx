@@ -24,11 +24,15 @@ const Layout = async ({
               <ActionsBtn />
             </Space>
           }
-          style={{ minHeight: '100vh', borderRadius: 0, display: 'flex', flexDirection: 'column' }}
-          styles={{ body: { flex: 1, display: 'flex', flexDirection: 'column' } }}
+          style={{ height: '100vh', borderRadius: 0, display: 'flex', flexDirection: 'column' }}
+          styles={{ body: { flex: 1, display: 'flex', flexDirection: 'column', overflow: 'scroll' } }}
         >
-          <div style={{ width: '100%', height: '100%', flex: 1 }}>{children}</div>
-          <Divider />
+          <div style={{ flex: 1, overflow: 'scroll' }}>{children}</div>
+          <Divider
+            style={{
+              flexShrink: 0,
+            }}
+          />
           <Space
             style={{
               width: '100%',

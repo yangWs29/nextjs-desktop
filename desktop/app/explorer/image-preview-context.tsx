@@ -73,7 +73,6 @@ export const ImageItem = ({ file_path }: { file_path: string }) => {
         onClick={() => openPreview(file_path)}
         src={`/explorer/api/files?path=${encodeURIComponent(file_path)}`}
         alt={file_path}
-        lazyBoundary="0px"
         fill // 填充父容器
         style={{
           objectFit: 'cover', // 或 'contain'
