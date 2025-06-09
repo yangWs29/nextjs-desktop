@@ -1,9 +1,11 @@
 import { Flex } from 'antd'
-import { FileOutlined, FolderOpenOutlined } from '@ant-design/icons'
+import { FileOutlined, FileZipOutlined, FolderOpenOutlined, VideoCameraOutlined } from '@ant-design/icons'
 import { File } from '@/app/explorer/read-directory-files'
 import path from 'path'
 import { ImageItem } from '@/app/explorer/image'
 import { isImage } from '@/app/explorer/util'
+import { videoExtensionPattern } from '@/app/explorer/media/media-utils'
+import { isArchiveFile } from '@/app/explorer/is-archive-file'
 
 export function FileItemIcon(file: File) {
   return (
@@ -32,7 +34,13 @@ export function FileItemIcon(file: File) {
             alignItems: 'center',
           }}
         >
-          <FileOutlined style={{ fontSize: '30px', marginBottom: '8px' }} />
+          {videoExtensionPattern.test(file.name) ? (
+            <VideoCameraOutlined style={{ fontSize: '30px', marginBottom: '8px' }} />
+          ) : isArchiveFile(file.name) ? (
+            <FileZipOutlined style={{ fontSize: '30px', marginBottom: '8px' }} />
+          ) : (
+            <FileOutlined style={{ fontSize: '30px', marginBottom: '8px' }} />
+          )}
           <span
             style={{
               position: 'absolute',

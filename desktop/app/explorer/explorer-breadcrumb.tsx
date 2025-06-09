@@ -10,9 +10,7 @@ const ExplorerBreadcrumb = () => {
   if (!pathname) {
     return null // 或者返回一个默认的面包屑结构
   }
-
-  const pathSegments = pathname.split('/').filter(Boolean)
-
+  const pathSegments = pathname.replace('/explorer/media/', '/explorer/').split('/').filter(Boolean)
   const items = [
     ...pathSegments.map((segment, index) => {
       const href = '/' + pathSegments.slice(0, index + 1).join('/')
