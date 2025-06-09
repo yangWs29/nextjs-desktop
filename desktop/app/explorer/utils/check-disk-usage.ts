@@ -1,5 +1,7 @@
 import { exec } from 'child_process'
 import util from 'util'
+import path from 'path'
+import { app_config } from '@/app-config.mjs'
 
 const execAsync = util.promisify(exec)
 
@@ -15,7 +17,7 @@ export const checkDiskUsage = async (dir: string = '/'): Promise<{ total: number
     return { total: size, free }
   } else {
     // Linux / macOS / BSD 系统兼容版
-    const { stdout: dfOutput } = await execAsync(`df -k "${dir}"`)
+    const { stdout: dfOutput } = await execAsync(`df -k "${path.join(app_config.explorer_base_path, dir)}"`)
     const lines = dfOutput.trim().split(/\r?\n/)
 
     // 第一行是表头，从第二行开始找当前挂载点
@@ -30,7 +32,7 @@ export const checkDiskUsage = async (dir: string = '/'): Promise<{ total: number
       const mountedOn = cols[cols.length - 1]
 
       // 匹配挂载点路径（处理可能的软链接或空格）
-      if (mountedOn === '/' || dir.startsWith(mountedOn)) {
+      if (mountedOn === '/' || path.join(app_config.explorer_base_path, dir).startsWith(mountedOn)) {
         matchedLine = cols
         break
       }
