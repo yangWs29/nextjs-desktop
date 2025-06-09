@@ -15,7 +15,9 @@ type Props = {
 const Page = async ({ params }: Props) => {
   const { filepath } = await params
 
-  const files = await readDirectoryFiles(filepath.slice(0, -1).join('/'))
+  const decode_filepath = filepath.map((file) => decodeURIComponent(file))
+
+  const files = await readDirectoryFiles(decode_filepath.slice(0, -1).join('/'))
 
   // 过滤出可播放的视频文件
   const videoFiles = files.filter((file) => {
@@ -27,16 +29,16 @@ const Page = async ({ params }: Props) => {
   return (
     <Card
       variant="borderless"
-      title={`正在播放 ${filepath[filepath.length - 1]}`}
+      title={`正在播放 ${decode_filepath[decode_filepath.length - 1]}`}
       styles={{ body: { flex: 1, overflow: 'hidden', display: 'flex' } }}
     >
       <Flex style={{ width: '70vw', flexShrink: 0, marginRight: 20, overflow: 'hidden' }} align="flex-start">
-        <VideoPlayer src={`/explorer/api/files?path=${encodeURIComponent(filepath.join('/'))}`} />
+        <VideoPlayer src={`/explorer/api/files?path=${encodeURIComponent(decode_filepath.join('/'))}`} />
       </Flex>
       <MediaList
         videoFiles={videoFiles}
-        mediaDir={filepath.slice(0, -1).join('/')}
-        fileName={filepath[filepath.length - 1]}
+        mediaDir={decode_filepath.slice(0, -1).join('/')}
+        fileName={decode_filepath[decode_filepath.length - 1]}
       />
     </Card>
   )
