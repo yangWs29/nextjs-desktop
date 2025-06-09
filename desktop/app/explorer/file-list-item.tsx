@@ -7,6 +7,7 @@ import { File } from '@/app/explorer/read-directory-files'
 import MoreActionsModal from '@/app/explorer/more-actions-modal'
 import React from 'react'
 import { isPlayableVideo } from '@/app/explorer/media/media-utils'
+import { app_config } from '@/app-config.mjs'
 
 const FileListItem = ({ files, currentPath }: { files: File[]; currentPath: string }) => {
   return files.map((file, index) => {
@@ -47,6 +48,7 @@ const FileListItem = ({ files, currentPath }: { files: File[]; currentPath: stri
           currentPath={currentPath}
           file={file}
           hrefDir={path.join(currentPath || 'explorer', file.name)}
+          baseDir={app_config.explorer_base_path}
         />
         <FileItemCheckbox hrefDir={path.join(currentPath || 'explorer', file.name)} />
         {file.isDirectory ? (

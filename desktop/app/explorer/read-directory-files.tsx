@@ -1,3 +1,4 @@
+'use server'
 import path from 'path'
 import { app_config } from '@/app-config.mjs'
 import fs from 'fs/promises'

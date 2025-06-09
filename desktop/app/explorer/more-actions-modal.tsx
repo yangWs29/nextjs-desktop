@@ -6,8 +6,18 @@ import { File } from '@/app/explorer/read-directory-files'
 import TerminalClient from '@/app/explorer/terminal-client'
 import { getSocket } from '@/app/explorer/socket'
 import { useTerminal } from '@/app/explorer/terminal-context'
+import BtnTreeSelectDir from '@/app/explorer/btn-tree-select-dir'
 
-const MoreActionsModal = ({ file, currentPath }: { currentPath: string; file: File; hrefDir: string }) => {
+const MoreActionsModal = ({
+  file,
+  currentPath,
+  baseDir,
+}: {
+  currentPath: string
+  file: File
+  hrefDir: string
+  baseDir?: string
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedAction, setSelectedAction] = useState<string | null>(null)
   const [form] = Form.useForm()
@@ -27,7 +37,7 @@ const MoreActionsModal = ({ file, currentPath }: { currentPath: string; file: Fi
 
         // 预览时不添加 -o 参数
         if (!values.preview) {
-          command.push(`-o${values.savePath}`)
+          command.push(`-o${baseDir}${values.savePath}`)
         }
 
         console.log(command.join(' '))
@@ -96,11 +106,19 @@ const MoreActionsModal = ({ file, currentPath }: { currentPath: string; file: Fi
                 <Form.Item label="解压密码" name="password">
                   <Input placeholder="输入密码（可选）" />
                 </Form.Item>
+                <Form.Item label="保存路径" name="savePath" rules={[{ required: true }]}>
+                  <Input
+                    addonAfter={
+                      <BtnTreeSelectDir
+                        baseDir={'/'}
+                        onConfirm={(selectedPath) => {
+                          form.setFieldsValue({ savePath: selectedPath })
+                        }}
+                      />
+                    }
+                  />
+                </Form.Item>
               </Space>
-
-              <Form.Item label="保存路径" name="savePath" rules={[{ required: true }]} initialValue={'./'}>
-                <Input />
-              </Form.Item>
 
               <Form.Item style={{ textAlign: 'right' }}>
                 <Space>
