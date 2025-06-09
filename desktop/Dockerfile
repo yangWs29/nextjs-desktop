@@ -1,24 +1,13 @@
 # ================= Stage 1: 构建阶段 ================
-FROM node:20.10.0-alpine3.19 AS base
-
-# 添加源
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
-
-# 安装必要依赖
-RUN apk add --no-cache libc6-compat
+FROM ghcr.io/yangws29/nextjs-desktop-docker-base-image:latest AS base
 
 # 复制本地 7zzs 并设置权限
 COPY bin/7zzs /usr/local/bin/7zzs
 RUN chmod +x /usr/local/bin/7zzs && \
     ln -sf /usr/local/bin/7zzs /usr/local/bin/7z
-# ================= Stage 2: 安装 node-pty ================
-FROM base AS deps-node-pty
 
-# node-pty install
-RUN apk add --no-cache g++ make py3-pip
-
-# ================= Stage 3: 安装依赖 ================
-FROM deps-node-pty as deps
+# ================= Stage 2: 安装依赖 ================
+FROM base as deps
 
 WORKDIR /app
 
@@ -29,7 +18,7 @@ COPY desktop/package-lock.json ./
 # 安装构建所需依赖
 RUN npm ci
 
-# ================= Stage 4: 构建应用 ================
+# ================= Stage 3: 构建应用 ================
 FROM base AS builder
 
 WORKDIR /app
@@ -42,7 +31,7 @@ COPY ./desktop .
 # 构建 Next.js 应用
 RUN npm run build
 
-# ================= Stage 5: 运行阶段 - 最小化运行环境 ================
+# ================= Stage 4: 运行阶段 - 最小化运行环境 ================
 FROM base AS runner
 
 # 设置工作目录
