@@ -22,7 +22,30 @@ export function FileItemIcon(file: File) {
       ) : isImage(file.name) ? (
         <ImageItem file_path={path.join(file.dirPath, file.name)} />
       ) : (
-        <FileOutlined style={{ fontSize: '30px', marginBottom: '8px' }} />
+        <div
+          style={{
+            position: 'relative',
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <FileOutlined style={{ fontSize: '30px', marginBottom: '8px' }} />
+          <span
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              right: 0,
+              fontSize: '12px',
+              color: '#666',
+              pointerEvents: 'none',
+            }}
+          >
+            {file.name.split('.').pop()}
+          </span>
+        </div>
       )}
     </Flex>
   )
