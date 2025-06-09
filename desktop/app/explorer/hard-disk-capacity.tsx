@@ -1,9 +1,9 @@
-import disk from 'diskusage'
 import { Progress, Space } from 'antd'
 import { formatFileSize } from '@/app/explorer/file-utils'
+import { checkDiskUsage } from '@/app/explorer/disk'
 
 const HardDiskCapacity = async ({ currentPath = '' }: { currentPath: string }) => {
-  const { total, free } = await disk.check(currentPath)
+  const { total, free } = await checkDiskUsage(currentPath)
 
   return (
     <Space style={{ width: '100%' }}>
