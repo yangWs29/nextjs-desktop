@@ -7,8 +7,10 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 # 安装必要依赖
 RUN apk add --no-cache libc6-compat
 
-# 下载并安装 7z
-RUN COPY bin/7zzs /usr/local/bin/ && chmod +x /usr/local/bin/7zzs && ln -sf /usr/local/bin/7zzs /usr/local/bin/7z
+# 复制本地 7zzs 并设置权限
+COPY bin/7zzs /usr/local/bin/7zzs
+RUN chmod +x /usr/local/bin/7zzs && \
+    ln -sf /usr/local/bin/7zzs /usr/local/bin/7z
 # ================= Stage 2: 安装 node-pty ================
 FROM base AS deps-node-pty
 
