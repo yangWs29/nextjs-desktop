@@ -63,7 +63,7 @@ const MoreActionsModal = ({
         footer={false}
         placement="bottom"
       >
-        <Form>
+        <Form form={form}>
           <Form.Item label="操作" name="action" rules={[{ required: true, message: '请选择一个操作' }]}>
             <Select
               options={[
