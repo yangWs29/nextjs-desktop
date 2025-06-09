@@ -3,7 +3,7 @@
 import React, { createContext, useState, useContext, useCallback } from 'react'
 import { CloseOutlined, DeleteOutlined, ToolOutlined } from '@ant-design/icons'
 import { App, Button, Card, Checkbox, Modal, Space } from 'antd'
-import { deleteFile } from '@/app/explorer/actions'
+import { deleteFileAction } from '@/app/explorer/actions'
 
 type EditContextType = {
   edit: boolean
@@ -86,7 +86,7 @@ export const ActionsBtn = () => {
   }
 
   const handleDeleteConfirm = async () => {
-    const result = await deleteFile(files)
+    const result = await deleteFileAction(files)
 
     if (result.success) {
       message.success(result?.results?.map(({ message }) => message).join(','))

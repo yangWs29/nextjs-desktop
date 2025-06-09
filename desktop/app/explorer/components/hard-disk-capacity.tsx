@@ -1,7 +1,7 @@
 'use client'
 import { Progress, Space } from 'antd'
 import { formatFileSize } from '@/app/explorer/utils/file-utils'
-import { checkDiskUsage } from '@/app/explorer/actions'
+import { checkDiskUsageAction } from '@/app/explorer/actions'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
@@ -12,7 +12,7 @@ const HardDiskCapacity = () => {
   useEffect(() => {
     async function fetchDiskUsage() {
       if (pathname) {
-        const data = await checkDiskUsage(pathname.replace(/^\/explorer\/?/, '/'))
+        const data = await checkDiskUsageAction(pathname.replace(/^\/explorer\/?/, '/'))
         setDiskUsage(data)
       }
     }
