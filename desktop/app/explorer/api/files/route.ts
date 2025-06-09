@@ -88,7 +88,7 @@ export async function GET(request: NextRequest) {
       status: 200,
       headers: {
         'Content-Type': contentType,
-        'Content-Disposition': `filename=${path.basename(fullPath) || 'download'}`,
+        'Content-Disposition': `filename=${encodeURIComponent(path.basename(fullPath)) || 'download'}`,
         'Cache-Control': 'public, max-age=31536000, immutable',
         ETag: Buffer.from(fullPath).toString('base64'),
         'Content-Length': fileStat.size.toString(),
