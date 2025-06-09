@@ -5,15 +5,7 @@ import { ActionsBtn, EditProvider } from '@/app/explorer/edit-context'
 import { TerminalProvider } from '@/app/explorer/components/terminal/terminal-context'
 import HardDiskCapacity from '@/app/explorer/components/hard-disk-capacity'
 
-const Layout = async ({
-  children,
-  params,
-}: {
-  children: React.ReactNode
-  params: Promise<{ path?: string[] | undefined }>
-}) => {
-  const { path } = await params
-
+const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <EditProvider>
       <TerminalProvider>
@@ -43,7 +35,7 @@ const Layout = async ({
               alignItems: 'center',
             }}
           >
-            <HardDiskCapacity currentPath={path?.join('/') || '/'} />
+            <HardDiskCapacity />
           </Space>
         </Card>
       </TerminalProvider>
