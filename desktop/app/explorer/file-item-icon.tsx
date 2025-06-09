@@ -6,6 +6,7 @@ import { ImageItem } from '@/app/explorer/image'
 import { isImage } from '@/app/explorer/util'
 import { videoExtensionPattern } from '@/app/explorer/media/media-utils'
 import { isArchiveFile } from '@/app/explorer/is-archive-file'
+import { formatFileSize } from '@/app/explorer/file-utils'
 
 export function FileItemIcon(file: File) {
   return (
@@ -19,6 +20,23 @@ export function FileItemIcon(file: File) {
         justifyContent: 'center',
       }}
     >
+      {!file.isDirectory && (
+        <span
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            fontSize: '12px',
+            pointerEvents: 'none',
+            zIndex: 1,
+            backgroundColor: 'rgba(14,14,14,0.3)',
+            borderRadius: '4px', // 添加圆角
+            padding: '2px 4px', // 可选：增加内边距使文字不贴边
+          }}
+        >
+          {formatFileSize(file.size)}
+        </span>
+      )}
       {file.isDirectory ? (
         <FolderOpenOutlined style={{ fontSize: '30px', marginBottom: '8px' }} />
       ) : isImage(file.name) ? (
