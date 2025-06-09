@@ -42,8 +42,6 @@ export const usePreview = () => {
 export const ImagePreviewGroup = () => {
   const { previewSrc, images, openPreview, closePreview } = usePreview()
 
-  console.log({ images, previewSrc })
-
   const current = images.findIndex((image) => image === previewSrc)
 
   return (
@@ -75,12 +73,14 @@ export const ImageItem = ({ file_path }: { file_path: string }) => {
         onClick={() => openPreview(file_path)}
         src={`/explorer/api/files?path=${encodeURIComponent(file_path)}`}
         alt={file_path}
+        lazyBoundary="0px"
         fill // 填充父容器
         style={{
           objectFit: 'cover', // 或 'contain'
           cursor: 'pointer', // 添加手指样式
         }}
-        sizes="(max-width: 768px) 100vw, 50vw" // 响应式尺寸提示
+        unoptimized={file_path.endsWith('.gif')}
+        sizes="100px" // 响应式尺寸提示
       />
     </>
   )

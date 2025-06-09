@@ -15,7 +15,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               <ActionsBtn />
             </Space>
           }
-          style={{ height: '100vh', borderRadius: 0 }}
+          style={{ minHeight: '100vh', borderRadius: 0 }}
         >
           {children}
         </Card>
