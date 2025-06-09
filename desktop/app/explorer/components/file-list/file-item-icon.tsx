@@ -1,12 +1,12 @@
 import { Flex } from 'antd'
 import { FileOutlined, FileZipOutlined, FolderOpenOutlined, VideoCameraOutlined } from '@ant-design/icons'
-import { File } from '@/app/explorer/read-directory-files'
+import { File } from '@/app/explorer/utils/read-directory-files'
 import path from 'path'
-import { ImageItem } from '@/app/explorer/image'
-import { isImage } from '@/app/explorer/util'
+import { ImageItem } from '@/app/explorer/image-preview-context'
+import { isImage } from '@/app/explorer/utils/util'
 import { videoExtensionPattern } from '@/app/explorer/media/media-utils'
-import { isArchiveFile } from '@/app/explorer/is-archive-file'
-import { formatFileSize } from '@/app/explorer/file-utils'
+import { isArchiveFile } from '@/app/explorer/utils/is-archive-file'
+import { formatFileSize } from '@/app/explorer/utils/file-utils'
 
 export function FileItemIcon(file: File) {
   return (

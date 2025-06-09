@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { Tree } from 'antd'
 import path from 'path'
-import { readDirectoryFiles } from '@/app/explorer/read-directory-files'
+import { readDirectoryFiles } from '@/app/explorer/utils/read-directory-files'
 
 const { DirectoryTree } = Tree
 

@@ -1,9 +1,9 @@
 import React from 'react'
 import { Card, Divider, Space } from 'antd'
-import ExplorerBreadcrumb from '@/app/explorer/explorer-breadcrumb'
+import ExplorerBreadcrumb from '@/app/explorer/components/explorer-breadcrumb'
 import { ActionsBtn, EditProvider } from '@/app/explorer/edit-context'
-import { TerminalProvider } from '@/app/explorer/terminal-context'
-import HardDiskCapacity from '@/app/explorer/hard-disk-capacity'
+import { TerminalProvider } from '@/app/explorer/components/terminal/terminal-context'
+import HardDiskCapacity from '@/app/explorer/components/hard-disk-capacity'
 
 const Layout = async ({
   children,

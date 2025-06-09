@@ -1,8 +1,8 @@
-import { readDirectoryFiles } from '@/app/explorer/read-directory-files'
+import { readDirectoryFiles } from '@/app/explorer/utils/read-directory-files'
 import path from 'path'
-import { isImage } from '@/app/explorer/util'
-import { ImagePreviewProvider } from '@/app/explorer/image'
-import FileListItem from '@/app/explorer/file-list-item'
+import { isImage } from '@/app/explorer/utils/util'
+import { ImagePreviewProvider } from '@/app/explorer/image-preview-context'
+import FileListItem from '@/app/explorer/components/file-list/file-list-item'
 
 const FileList = async ({ currentPath = '' }: { currentPath: string }) => {
   const files = await readDirectoryFiles(currentPath)

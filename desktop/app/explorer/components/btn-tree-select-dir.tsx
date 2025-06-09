@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import { Button, Modal } from 'antd'
-import TreeSelectDir from '@/app/explorer/tree-select-dir'
+import TreeSelectDir from '@/app/explorer/components/tree-select-dir'
 import { FolderOutlined } from '@ant-design/icons'
 
 interface BtnTreeSelectDirProps {

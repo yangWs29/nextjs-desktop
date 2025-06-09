@@ -1,6 +1,6 @@
 'use client'
 import React, { createContext, useState, useContext, useCallback } from 'react'
-import { File } from '@/app/explorer/read-directory-files'
+import { File } from '@/app/explorer/utils/read-directory-files'
 
 type FileListContextType = {
   files: File[]

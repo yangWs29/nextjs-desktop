@@ -3,12 +3,12 @@
 import { MoreOutlined } from '@ant-design/icons'
 import { Button, Drawer, Form, Select } from 'antd'
 import React, { useState } from 'react'
-import { File } from '@/app/explorer/read-directory-files'
-import TerminalClient from '@/app/explorer/terminal-client'
-import { getSocket } from '@/app/explorer/socket'
-import { useTerminal } from '@/app/explorer/terminal-context'
-import FileMoveForm from '@/app/explorer/file-move-form'
-import SevenZipExtractForm from '@/app/explorer/seven-zip-extract-form'
+import { File } from '@/app/explorer/utils/read-directory-files'
+import TerminalClient from '@/app/explorer/components/terminal/terminal-client'
+import { getSocket } from '@/app/explorer/utils/socket'
+import { useTerminal } from '@/app/explorer/components/terminal/terminal-context'
+import FileMoveForm from '@/app/explorer/components/more-action/file-move-form'
+import SevenZipExtractForm from '@/app/explorer/components/more-action/seven-zip-extract-form'
 
 const MoreActionsModal = ({
   file,
@@ -63,7 +63,7 @@ const MoreActionsModal = ({
         footer={false}
         placement="bottom"
       >
-        <Form form={form}>
+        <Form>
           <Form.Item label="操作" name="action" rules={[{ required: true, message: '请选择一个操作' }]}>
             <Select
               options={[
@@ -74,33 +74,33 @@ const MoreActionsModal = ({
               placeholder="选择操作"
             />
           </Form.Item>
-
-          {selectedAction === '7z-extract' && (
-            <SevenZipExtractForm
-              fileName={file.name}
-              baseDir={baseDir}
-              onExtractSubmitAction={(command) => {
-                const socket = getSocket()
-                socket.emit('terminal-input', command)
-                terminal?.current?.focus()
-              }}
-            />
-          )}
-
-          {selectedAction === 'move' && (
-            <FileMoveForm
-              currentPath={currentPath}
-              baseDir={baseDir}
-              fileName={file.name}
-              onMoveSubmitAction={(sourcePath, targetPath) => {
-                const socket = getSocket()
-                const command = `mv "${sourcePath}" "${targetPath}"`
-                socket.emit('terminal-input', command)
-                terminal?.current?.focus()
-              }}
-            />
-          )}
         </Form>
+
+        {selectedAction === '7z-extract' && (
+          <SevenZipExtractForm
+            fileName={file.name}
+            baseDir={baseDir}
+            onExtractSubmitAction={(command) => {
+              const socket = getSocket()
+              socket.emit('terminal-input', command)
+              terminal?.current?.focus()
+            }}
+          />
+        )}
+
+        {selectedAction === 'move' && (
+          <FileMoveForm
+            currentPath={currentPath}
+            baseDir={baseDir}
+            fileName={file.name}
+            onMoveSubmitAction={(sourcePath, targetPath) => {
+              const socket = getSocket()
+              const command = `mv "${sourcePath}" "${targetPath}"`
+              socket.emit('terminal-input', command)
+              terminal?.current?.focus()
+            }}
+          />
+        )}
 
         <TerminalClient currentPath={decodeURIComponent(currentPath)} />
       </Drawer>
