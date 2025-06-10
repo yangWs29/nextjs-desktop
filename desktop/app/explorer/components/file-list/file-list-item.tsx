@@ -47,7 +47,7 @@ const FileListItem = ({ files, currentPath }: { files: File[]; currentPath: stri
       <div key={index} style={{ position: 'relative' }}>
         <MoreActionsModal currentPath={currentPath} file={file} baseDir={app_config.explorer_base_path} />
         <FileItemCheckbox hrefDir={path.join(currentPath || 'explorer', file.name)} />
-        <OpenOriginalBtn file_path={path.join(file.dirPath, file.name)} />
+        {!file.isDirectory && <OpenOriginalBtn file_path={path.join(file.dirPath, file.name)} />}
 
         {file.isDirectory ? (
           <Link href={path.join('/explorer', currentPath, encodeURIComponent(file.name))}>
