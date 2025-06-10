@@ -4,8 +4,15 @@ import ExplorerBreadcrumb from '@/app/explorer/components/explorer-breadcrumb'
 import { ActionsBtn, EditProvider } from '@/app/explorer/edit-context'
 import { TerminalProvider } from '@/app/explorer/components/terminal/terminal-context'
 import HardDiskCapacity from '@/app/explorer/components/hard-disk-capacity'
+import { ChangeSortServer } from '@/app/explorer/components/change-sort'
+import { getSortOptionFromCookie } from '@/app/explorer/utils/read-directory-files'
+import { headers } from 'next/headers'
+import { checkDiskUsageAction } from '@/app/explorer/actions'
+import { replaceDir } from '@/app/explorer/utils/file-utils'
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = async ({ children }: { children: React.ReactNode }) => {
+  const headerList = await headers()
+
   return (
     <EditProvider>
       <TerminalProvider>
@@ -31,11 +38,13 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               height: '20px',
               flexShrink: 0,
               display: 'flex',
-              justifyContent: 'center',
+              justifyContent: 'flex-end',
               alignItems: 'center',
             }}
           >
-            <HardDiskCapacity />
+            <HardDiskCapacity diskUsage={await checkDiskUsageAction(replaceDir(headerList.get('x-pathname') || '/'))} />
+
+            <ChangeSortServer initialSort={await getSortOptionFromCookie()} />
           </Space>
         </Card>
       </TerminalProvider>
