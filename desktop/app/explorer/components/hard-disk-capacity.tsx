@@ -12,7 +12,7 @@ const HardDiskCapacity = () => {
   useEffect(() => {
     async function fetchDiskUsage() {
       if (pathname) {
-        const data = await checkDiskUsageAction(pathname.replace(/^\/explorer\/?/, '/'))
+        const data = await checkDiskUsageAction(pathname.replace(/^\/explorer\/?(media)?/, '/'))
         setDiskUsage(data)
       }
     }
