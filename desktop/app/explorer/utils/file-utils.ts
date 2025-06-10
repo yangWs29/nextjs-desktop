@@ -17,3 +17,13 @@ export function pathJoin(...arg: string[]) {
       .join('/')
   )
 }
+
+export function getFileExtension(fileName: string): string {
+  const lastDotIndex = fileName.lastIndexOf('.')
+  if (lastDotIndex === -1) return ''
+  return fileName.slice(lastDotIndex + 1)
+}
+
+export function replaceDir(dir: string) {
+  return dir.replace(/^\/explorer\/?(media)?/, '/')
+}
