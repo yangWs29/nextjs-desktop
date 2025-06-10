@@ -33,7 +33,7 @@ const Page = async ({ params }: Props) => {
       styles={{ body: { flex: 1, overflow: 'hidden', display: 'flex' } }}
     >
       <Flex style={{ width: '70vw', flexShrink: 0, marginRight: 20, overflow: 'hidden' }} align="flex-start">
-        <VideoPlayer src={`/explorer/api/files?path=${encodeURIComponent(decode_filepath.join('/'))}`} />
+        <VideoPlayer src={path.join('/explorer/static/', decode_filepath.join('/'))} />
       </Flex>
       <MediaList
         videoFiles={videoFiles}
