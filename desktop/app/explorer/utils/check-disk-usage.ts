@@ -49,8 +49,14 @@ export const getMountPointInfo = async (mountPoint: string): Promise<MountPointI
 
   // 先尝试查找非根目录匹配
   const nonRootMountPoints = mountPoints.filter((mp) => mp.mountedOn !== '/')
-  const matched = nonRootMountPoints.find((mp) => mountPoint.includes(mp.mountedOn))
-
+  const matched = nonRootMountPoints
+    .filter((mp) => mountPoint.startsWith(mp.mountedOn))
+    .reduce(
+      (bestMatch, current) => {
+        return bestMatch ? (current.mountedOn.length > bestMatch.mountedOn.length ? current : bestMatch) : current
+      },
+      null as MountPointInfo | null,
+    )
   // 如果没有找到匹配项，则使用根目录信息
   return matched || mountPoints.find((mp) => mp.mountedOn === '/') || null
 }
