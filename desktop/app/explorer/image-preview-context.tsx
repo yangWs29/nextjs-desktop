@@ -25,6 +25,7 @@ export const ImagePreviewProvider = ({ children, images }: { children: React.Rea
         images: images,
       }}
     >
+      <ImagePreviewGroup />
       {children}
     </PreviewContext.Provider>
   )
@@ -69,7 +70,6 @@ export const ImageItem = ({ file_path }: { file_path: string }) => {
 
   return (
     <>
-      <ImagePreviewGroup />
       <Image
         onClick={() => openPreview(file_path)}
         src={`${pathJoin('/explorer/static/', encodeURIComponent(file_path))}`}
