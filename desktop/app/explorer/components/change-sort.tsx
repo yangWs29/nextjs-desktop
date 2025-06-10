@@ -6,8 +6,8 @@ import { SortOptionType } from '@/app/explorer/utils/read-directory-files-action
 import { setSortCookieAction } from '@/app/explorer/components/set-sort-cookie-action'
 
 const SORT_OPTIONS = [
-  { value: 'name-asc', label: '文件名 A-Z' },
-  { value: 'name-desc', label: '文件名 Z-A' },
+  { value: 'name-asc', label: '名称 A→Z' },
+  { value: 'name-desc', label: '名称 Z→A' },
   { value: 'date-asc', label: '创建时间 旧→新' },
   { value: 'date-desc', label: '创建时间 新→旧' },
   { value: 'size-asc', label: '文件大小 小→大' },
@@ -35,7 +35,7 @@ export const ChangeSortServer: React.FC<ChangeSortProps> = ({ initialSort = 'nam
         value: opt.value,
         label: opt.label,
       }))}
-      style={{ width: 200 }}
+      style={{ width: 140 }}
     />
   )
 }
