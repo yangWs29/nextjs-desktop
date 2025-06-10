@@ -5,14 +5,14 @@ import { ActionsBtn, EditProvider } from '@/app/explorer/edit-context'
 import { TerminalProvider } from '@/app/explorer/components/terminal/terminal-context'
 import HardDiskCapacity from '@/app/explorer/components/hard-disk-capacity'
 import { ChangeSortServer } from '@/app/explorer/components/change-sort'
-import {
-  getHideHiddenOptionFromCookie,
-  getSortOptionFromCookie,
-} from '@/app/explorer/utils/read-directory-files-action'
 import { headers } from 'next/headers'
 import { checkDiskUsageAction } from '@/app/explorer/actions'
 import { replaceDir } from '@/app/explorer/utils/file-utils'
 import SwitchHiddenFiles from '@/app/explorer/components/switch-hidden-files'
+import {
+  getHideHiddenOptionFromCookie,
+  getSortOptionFromCookie,
+} from '@/app/explorer/utils/get-hide-hidden-option-from-cookie'
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
   const headerList = await headers()
