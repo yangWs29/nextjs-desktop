@@ -69,19 +69,17 @@ export const ImageItem = ({ file_path }: { file_path: string }) => {
   const { openPreview } = usePreview()
 
   return (
-    <>
-      <Image
-        onClick={() => openPreview(file_path)}
-        src={`${pathJoin('/explorer/static/', encodeURIComponent(file_path))}`}
-        alt={file_path}
-        fill // 填充父容器
-        style={{
-          objectFit: 'cover', // 或 'contain'
-          cursor: 'pointer', // 添加手指样式
-        }}
-        unoptimized={file_path.endsWith('.gif')}
-        sizes="100px" // 响应式尺寸提示
-      />
-    </>
+    <Image
+      onClick={() => openPreview(file_path)}
+      src={`${pathJoin('/explorer/static/', encodeURIComponent(file_path))}`}
+      alt={file_path}
+      fill // 填充父容器
+      style={{
+        objectFit: 'cover',
+        cursor: 'pointer',
+      }}
+      unoptimized={file_path.endsWith('.gif')}
+      sizes="100px"
+    />
   )
 }

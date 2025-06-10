@@ -7,6 +7,7 @@ import { isImage } from '@/app/explorer/utils/util'
 import { videoExtensionPattern } from '@/app/explorer/media/media-utils'
 import { isArchiveFile } from '@/app/explorer/utils/is-archive-file'
 import { formatFileSize } from '@/app/explorer/utils/file-utils'
+import React from 'react'
 
 export function FileItemIcon(file: File) {
   return (
