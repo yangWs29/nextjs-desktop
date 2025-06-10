@@ -4,6 +4,7 @@ import { NextRequest } from 'next/server'
 import { Readable } from 'stream'
 import { parseRangeHeader } from '@/app/explorer/static/parse-range-header'
 import { app_config } from '@/app-config.mjs'
+import { isPreviewable } from '@/app/explorer/static/is-previewable'
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
   // 获取请求路径
@@ -67,14 +68,9 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       }[ext] || 'application/octet-stream'
 
     // 判断是否浏览器可以直接预览
-    const isPreviewable =
-      mimeType.startsWith('text/') ||
-      mimeType.startsWith('image/') ||
-      mimeType.startsWith('video/') ||
-      mimeType === 'application/pdf'
+    const isPreviewableType = isPreviewable(mimeType, ext)
 
     // 构建响应头
-
     const headers: Record<string, string> = {
       'Content-Type': mimeType,
       'Cache-Control': 'public, max-age=31536000, immutable',
@@ -85,7 +81,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     // 设置 Content-Disposition
     const filename = basename(filePath)
     const encodedFilename = encodeURIComponent(filename)
-    const dispositionType = isPreviewable ? 'inline' : 'attachment'
+    const dispositionType = isPreviewableType ? 'inline' : 'attachment'
 
     headers['Content-Disposition'] =
       `${dispositionType}; filename="${encodedFilename}"; filename*=UTF-8''${encodedFilename}`
