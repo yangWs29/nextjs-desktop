@@ -54,7 +54,7 @@ const SelectFolders = ({ dirPath, basePath = '/explorer/', onChange }: SelectFol
       showSearch
       style={{ minWidth: 200 }}
       value={currentFolderName}
-      onChange={handleSelect}
+      onSelect={handleSelect}
       onOpenChange={handleDropdownVisibleChange}
       loading={loading}
       options={folders.map((folder) => ({
