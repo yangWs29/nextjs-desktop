@@ -67,9 +67,9 @@ export const readDirectoryFilesAction = async (
     return filesWithStats.sort((a, b) => {
       switch (resolvedSortBy) {
         case 'name-asc':
-          return a.name.localeCompare(b.name)
+          return a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' })
         case 'name-desc':
-          return b.name.localeCompare(a.name)
+          return b.name.localeCompare(a.name, undefined, { numeric: true, sensitivity: 'base' })
         case 'date-asc':
           return a.createdAt.getTime() - b.createdAt.getTime()
         case 'date-desc':
