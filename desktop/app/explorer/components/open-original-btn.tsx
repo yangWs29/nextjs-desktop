@@ -21,6 +21,7 @@ const OpenOriginalBtn = ({ file_path }: { file_path: string }) => {
       }}
       href={pathJoin('/explorer/static/', encodeURIComponent(file_path))}
       target="_blank"
+      prefetch={false}
     >
       <ExportOutlined />
     </Link>

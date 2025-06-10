@@ -2,6 +2,10 @@
 import path from 'path'
 import { app_config } from '@/app-config.mjs'
 import fs from 'fs/promises'
+import {
+  getHideHiddenOptionFromCookie,
+  getSortOptionFromCookie,
+} from '@/app/explorer/utils/get-hide-hidden-option-from-cookie'
 
 export type File = {
   name: string
@@ -28,12 +32,13 @@ const isHiddenFile = (filename: string): boolean => {
 
 export const readDirectoryFilesAction = async (
   dirPath: string = '',
-  sortBy: SortOptionType = 'name-asc',
-  hideHiddenFiles: boolean = true, // 新增参数
+  sortBy?: SortOptionType,
+  hideHiddenFiles?: boolean, // 新增参数
 ): Promise<File[]> => {
   try {
-    const resolvedSortBy = sortBy
-    const resolvedHideHidden = hideHiddenFiles
+    const resolvedSortBy = sortBy || (await getSortOptionFromCookie())
+    const resolvedHideHidden =
+      typeof hideHiddenFiles === 'boolean' ? hideHiddenFiles : await getHideHiddenOptionFromCookie()
 
     const fullPath = path.join(app_config.explorer_base_path, decodeURIComponent(dirPath))
     const files = await fs.readdir(fullPath, { withFileTypes: true })
