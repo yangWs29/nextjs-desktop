@@ -32,7 +32,7 @@ const Page = async ({ params }: Props) => {
       title={`正在播放 ${decode_filepath[decode_filepath.length - 1]}`}
       styles={{ body: { flex: 1, overflow: 'hidden', display: 'flex' } }}
     >
-      <Flex style={{ width: '70vw', flexShrink: 0, marginRight: 20, overflow: 'hidden' }} align="flex-start">
+      <Flex style={{ flex: 1, flexShrink: 0, marginRight: 20, overflow: 'hidden' }} align="flex-start">
         <VideoPlayer src={path.join('/explorer/static/', decode_filepath.join('/'))} />
       </Flex>
       <MediaList
