@@ -19,7 +19,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           style={{ height: '100vh', borderRadius: 0, display: 'flex', flexDirection: 'column' }}
           styles={{ body: { flex: 1, display: 'flex', flexDirection: 'column', overflow: 'scroll' } }}
         >
-          <div style={{ flex: 1, overflow: 'scroll' }}>{children}</div>
+          <div style={{ flex: 1, overflow: 'scroll', display: 'flex', flexDirection: 'column' }}>{children}</div>
           <Divider
             style={{
               flexShrink: 0,

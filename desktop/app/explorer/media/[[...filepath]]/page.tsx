@@ -30,6 +30,7 @@ const Page = async ({ params }: Props) => {
     <Card
       variant="borderless"
       title={`正在播放 ${decode_filepath[decode_filepath.length - 1]}`}
+      style={{ flex: 1, display: 'flex', flexDirection: 'column' }}
       styles={{ body: { flex: 1, overflow: 'hidden', display: 'flex' } }}
     >
       <Flex style={{ flex: 1, flexShrink: 0, marginRight: 20, overflow: 'hidden' }} align="flex-start">

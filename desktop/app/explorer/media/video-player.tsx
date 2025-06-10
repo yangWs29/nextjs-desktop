@@ -103,7 +103,7 @@ const VideoPlayer: React.FC<VideoProps> = ({ src, type = 'video/mp4' }) => {
       ref={videoRef}
       className="video-js vjs-big-play-centered"
       controls
-      style={{ width: '100%', height: '80vh' }}
+      style={{ width: '100%', height: '100%' }}
     />
   )
 }
