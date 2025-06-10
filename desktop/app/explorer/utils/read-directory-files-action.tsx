@@ -22,6 +22,28 @@ export type SortOptionType =
   | 'size-asc'
   | 'size-desc'
 
+// 判断是否为隐藏文件（以 . 开头）
+const isHiddenFile = (filename: string): boolean => {
+  return filename.startsWith('.')
+}
+
+// 从 cookie 获取是否隐藏隐藏文件的设置
+export const getHideHiddenOptionFromCookie = async (): Promise<boolean> => {
+  try {
+    const cookieStore = await cookies()
+    const hideHidden = cookieStore.get('hide_hidden_files')?.value || 'true'
+
+    if (hideHidden === 'true' || hideHidden === 'false') {
+      return hideHidden === 'true'
+    }
+  } catch (e) {
+    // 防止 client-only 环境报错
+  }
+
+  // 默认值：隐藏隐藏文件
+  return true
+}
+
 // 从 cookie 获取排序规则
 export const getSortOptionFromCookie = async (): Promise<SortOptionType> => {
   try {
@@ -42,17 +64,25 @@ export const getSortOptionFromCookie = async (): Promise<SortOptionType> => {
   return 'name-asc'
 }
 
-export const readDirectoryFilesAction = async (dirPath: string = '', sortBy?: SortOptionType): Promise<File[]> => {
+export const readDirectoryFilesAction = async (
+  dirPath: string = '',
+  sortBy?: SortOptionType,
+  hideHiddenFiles?: boolean, // 新增参数
+): Promise<File[]> => {
   try {
-    // ✅ 如果未传入排序方式，则从 Cookie 获取
     const resolvedSortBy = sortBy || (await getSortOptionFromCookie())
+    const resolvedHideHidden =
+      typeof hideHiddenFiles === 'boolean' ? hideHiddenFiles : await getHideHiddenOptionFromCookie()
 
     const fullPath = path.join(app_config.explorer_base_path, decodeURIComponent(dirPath))
     const files = await fs.readdir(fullPath, { withFileTypes: true })
 
+    // 过滤隐藏文件（如果启用）
+    const filteredFiles = resolvedHideHidden ? files.filter((file) => !isHiddenFile(file.name)) : files
+
     // 获取文件详细信息
     const filesWithStats = await Promise.all(
-      files.map(async (file) => {
+      filteredFiles.map(async (file) => {
         const filePath = path.join(fullPath, file.name)
         const stats = await fs.stat(filePath)
 
@@ -62,7 +92,7 @@ export const readDirectoryFilesAction = async (dirPath: string = '', sortBy?: So
           isDirectory: file.isDirectory(),
           createdAt: stats.birthtime || stats.ctime,
           updatedAt: stats.mtime,
-          size: stats.size, // 文件大小（字节）
+          size: stats.size,
         }
       }),
     )
