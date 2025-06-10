@@ -22,7 +22,7 @@ export const getAllMountPoints = async (): Promise<MountPointInfo[]> => {
     return []
   }
 
-  const { stdout } = await execAsync(`df -h --output=source,size,used,avail,pcent,target`)
+  const { stdout } = await execAsync(`df`)
   const lines = stdout.trim().split(/\r?\n/)
   // const headers = lines[0].split(/\s+/)
   const dataLines = lines.slice(1)
@@ -46,7 +46,7 @@ export const getAllMountPoints = async (): Promise<MountPointInfo[]> => {
  */
 export const getMountPointInfo = async (mountPoint: string): Promise<MountPointInfo | null> => {
   const mountPoints = await getAllMountPoints()
-  return mountPoints.find((mp) => mp.mountedOn === mountPoint) || null
+  return mountPoints.find((mp) => mountPoint.includes(mp.mountedOn)) || null
 }
 
 /**
@@ -63,6 +63,16 @@ export const checkDiskUsage = async (dir: string = '/'): Promise<{ total: number
     return { total: size, free }
   } else {
     const fullPath = path.join(app_config.explorer_base_path, dir)
+
+    const mountPointInfo = await getMountPointInfo(fullPath)
+
+    if (mountPointInfo) {
+      return {
+        total: parseInt(mountPointInfo.size, 10),
+        free: parseInt(mountPointInfo.avail, 10),
+      }
+    }
+
     const { stdout } = await execAsync(`df -k "${fullPath}"`)
     const lines = stdout.trim().split(/\r?\n/)
     if (lines.length < 2) {
