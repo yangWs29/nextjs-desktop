@@ -1,6 +1,6 @@
 import { Flex } from 'antd'
 import { FileOutlined, FileZipOutlined, FolderOpenOutlined, VideoCameraOutlined } from '@ant-design/icons'
-import { File } from '@/app/explorer/utils/read-directory-files'
+import { File } from '@/app/explorer/utils/read-directory-files-action'
 import path from 'path'
 import { ImageItem } from '@/app/explorer/image-preview-context'
 import { isImage } from '@/app/explorer/utils/util'

@@ -2,7 +2,7 @@ import React from 'react'
 import VideoPlayer from '@/app/explorer/media/video-player'
 import { Card, Flex } from 'antd'
 import { MediaList } from '@/app/explorer/media/media-list'
-import { readDirectoryFiles } from '@/app/explorer/utils/read-directory-files'
+import { readDirectoryFilesAction } from '@/app/explorer/utils/read-directory-files-action'
 import path from 'path'
 import { playableVideoExtensions } from '@/app/explorer/media/media-utils'
 
@@ -17,7 +17,7 @@ const Page = async ({ params }: Props) => {
 
   const decode_filepath = filepath.map((file) => decodeURIComponent(file))
 
-  const files = await readDirectoryFiles(decode_filepath.slice(0, -1).join('/'))
+  const files = await readDirectoryFilesAction(decode_filepath.slice(0, -1).join('/'))
 
   // 过滤出可播放的视频文件
   const videoFiles = files.filter((file) => {

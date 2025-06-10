@@ -1,11 +1,11 @@
-import { readDirectoryFiles } from '@/app/explorer/utils/read-directory-files'
+import { readDirectoryFilesAction } from '@/app/explorer/utils/read-directory-files-action'
 import path from 'path'
 import { isImage } from '@/app/explorer/utils/util'
 import { ImagePreviewProvider } from '@/app/explorer/image-preview-context'
 import FileListItem from '@/app/explorer/components/file-list/file-list-item'
 
 const FileList = async ({ currentPath = '' }: { currentPath: string }) => {
-  const files = await readDirectoryFiles(currentPath)
+  const files = await readDirectoryFilesAction(currentPath)
 
   return (
     <div

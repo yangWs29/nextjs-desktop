@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { Select, Spin } from 'antd'
 import { useRouter } from 'next/navigation'
-import { readDirectoryFiles } from '@/app/explorer/utils/read-directory-files'
+import { readDirectoryFilesAction } from '@/app/explorer/utils/read-directory-files-action'
 import { pathJoin } from '@/app/explorer/utils/file-utils'
 
 type SelectFoldersProps = {
@@ -28,7 +28,7 @@ const SelectFolders = ({ dirPath, basePath = '/explorer/', onChange }: SelectFol
       setLoading(true)
       try {
         const parentPath = dirPath.split('/').slice(0, -1).join('/') || '/'
-        const files = await readDirectoryFiles(parentPath)
+        const files = await readDirectoryFilesAction(parentPath, 'name-asc')
         const foldersOnly = files.filter((f) => f.isDirectory).map((f) => f.name)
         setFolders(foldersOnly)
         setHasLoaded(true)

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { Tree } from 'antd'
 import path from 'path'
-import { readDirectoryFiles } from '@/app/explorer/utils/read-directory-files'
+import { readDirectoryFilesAction } from '@/app/explorer/utils/read-directory-files-action'
 
 const { DirectoryTree } = Tree
 
@@ -24,7 +24,7 @@ const TreeSelectDir: React.FC<InputSelectDirProps> = ({ baseDir, onSelect }) => 
 
   // 读取单个目录下的子目录
   const loadSubDirectories = async (dirPath: string): Promise<DirNode[]> => {
-    const files = await readDirectoryFiles(dirPath)
+    const files = await readDirectoryFilesAction(dirPath)
     return files
       .filter((file) => file.isDirectory)
       .map((file) => {

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { Select } from 'antd'
-import { SortOptionType } from '@/app/explorer/utils/read-directory-files'
+import { SortOptionType } from '@/app/explorer/utils/read-directory-files-action'
 import { setSortCookieAction } from '@/app/explorer/components/set-sort-cookie-action'
 
 const SORT_OPTIONS = [

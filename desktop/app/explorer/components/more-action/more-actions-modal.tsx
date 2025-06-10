@@ -3,7 +3,7 @@
 import { MoreOutlined } from '@ant-design/icons'
 import { Button, Drawer, Form, Select } from 'antd'
 import React, { useState } from 'react'
-import { File } from '@/app/explorer/utils/read-directory-files'
+import { File } from '@/app/explorer/utils/read-directory-files-action'
 import TerminalClient from '@/app/explorer/components/terminal/terminal-client'
 import { getSocket } from '@/app/explorer/utils/socket'
 import { useTerminal } from '@/app/explorer/components/terminal/terminal-context'

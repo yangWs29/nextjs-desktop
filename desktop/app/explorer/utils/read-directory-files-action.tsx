@@ -42,7 +42,7 @@ export const getSortOptionFromCookie = async (): Promise<SortOptionType> => {
   return 'name-asc'
 }
 
-export const readDirectoryFiles = async (dirPath: string = '', sortBy?: SortOptionType): Promise<File[]> => {
+export const readDirectoryFilesAction = async (dirPath: string = '', sortBy?: SortOptionType): Promise<File[]> => {
   try {
     // ✅ 如果未传入排序方式，则从 Cookie 获取
     const resolvedSortBy = sortBy || (await getSortOptionFromCookie())
