@@ -9,7 +9,7 @@ const SocketHandler = (req: any, res: any) => {
     const io = new Server(res.socket.server, { path: '/api/terminal-socket', addTrailingSlash: false })
 
     io.on('connection', (socket) => {
-      const pty = spawn('sh', [], { name: 'xterm-color', cols: 80, rows: 24, cwd: process.env.HOME })
+      const pty = spawn('sh', [], { name: 'xterm-color', cwd: process.env.HOME })
 
       pty.onData((data) => {
         socket.emit('terminal-output', data)
@@ -20,6 +20,11 @@ const SocketHandler = (req: any, res: any) => {
 
         console.log(`Changing directory to ${dir_path}`)
         pty.write(`cd "${dir_path}"\n`) // 模拟用户输入 cd 命令
+      })
+
+      // 监听 reset-terminal-size 事件，并重置终端大小
+      socket.on('reset-terminal-size', (data: { cols: number; rows: number }) => {
+        pty.resize(data.cols, data.rows)
       })
 
       socket.on('terminal-input', (data) => {

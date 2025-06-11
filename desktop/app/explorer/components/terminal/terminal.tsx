@@ -31,6 +31,8 @@ export default function Terminal({ currentPath }: { currentPath: string }) {
       socket.emit('change-directory', { path: currentPath })
 
       fitAddon.fit()
+
+      socket.emit('reset-terminal-size', { cols: term.cols, rows: term.rows })
     })
 
     const resizeObserver = new ResizeObserver(() => {
@@ -59,6 +61,9 @@ export default function Terminal({ currentPath }: { currentPath: string }) {
       term.dispose()
     }
   }, [])
+
+  console.log('Rows:', terminal?.current?.rows)
+  console.log('Columns:', terminal?.current?.cols)
 
   return <div id="terminal" style={{ display: 'flex', flex: '1', overflow: 'hidden' }} ref={terminalRef} />
 }
