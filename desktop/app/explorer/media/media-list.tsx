@@ -2,6 +2,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { List } from 'antd'
+import { dirJoinAndEncode } from '@/app/explorer/utils/file-utils'
 
 interface File {
   name: string
@@ -23,7 +24,7 @@ export const MediaList: React.FC<MediaListProps> = ({ videoFiles, mediaDir, file
     <List>
       {videoFiles.map((file, index) => (
         <List.Item key={index} style={{ padding: '8px' }}>
-          <Link href={`/explorer/media/${mediaDir}/${encodeURIComponent(file.name)}`}>
+          <Link href={dirJoinAndEncode('/explorer/media/', mediaDir, file.name)}>
             <div
               style={{
                 fontSize: '14px',

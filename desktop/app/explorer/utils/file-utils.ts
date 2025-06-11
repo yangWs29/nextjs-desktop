@@ -29,3 +29,12 @@ export function replaceDir(dir: string) {
 }
 
 export const isTextFile = /\.(txt|text|log|md|markdown|csv|tsv|json|xml|yml|yaml|toml|ini|conf|env)$/i
+
+// 将目文件夹目录 encode，防止路径中包含特殊字符
+export function encodeDir(dir: string) {
+  return '/' + dir.slice(1).split('/').map(encodeURIComponent).join('/')
+}
+
+export function dirJoinAndEncode(...args: string[]) {
+  return encodeDir(pathJoin(...args))
+}

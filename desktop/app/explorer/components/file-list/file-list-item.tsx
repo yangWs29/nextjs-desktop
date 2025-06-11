@@ -9,6 +9,7 @@ import React from 'react'
 import { isPlayableVideo } from '@/app/explorer/media/media-utils'
 import { app_config } from '@/app-config.mjs'
 import OpenOriginalBtn from '@/app/explorer/components/open-original-btn'
+import { dirJoinAndEncode } from '@/app/explorer/utils/file-utils'
 
 const FileListItem = ({ files, currentPath }: { files: File[]; currentPath: string }) => {
   return files.map((file, index) => {
@@ -50,11 +51,11 @@ const FileListItem = ({ files, currentPath }: { files: File[]; currentPath: stri
         {!file.isDirectory && <OpenOriginalBtn file_path={path.join(file.dirPath, file.name)} />}
 
         {file.isDirectory ? (
-          <Link href={path.join('/explorer', currentPath, encodeURIComponent(file.name))}>
+          <Link href={dirJoinAndEncode('/explorer', currentPath, file.name)}>
             <CardItem />
           </Link>
         ) : isPlayableVideo(file.name) ? (
-          <Link href={path.join('/explorer/media', currentPath, encodeURIComponent(file.name))}>
+          <Link href={dirJoinAndEncode('/explorer/media', currentPath, file.name)}>
             <CardItem />
           </Link>
         ) : (

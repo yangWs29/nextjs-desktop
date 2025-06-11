@@ -1,7 +1,7 @@
 'use client'
 import { ExportOutlined } from '@ant-design/icons'
 import React from 'react'
-import { pathJoin } from '@/app/explorer/utils/file-utils'
+import { dirJoinAndEncode } from '@/app/explorer/utils/file-utils'
 import { useEdit } from '@/app/explorer/edit-context'
 import Link from 'next/link'
 
@@ -19,7 +19,7 @@ const OpenOriginalBtn = ({ file_path }: { file_path: string }) => {
         zIndex: 1,
         color: 'inherit',
       }}
-      href={pathJoin('/explorer/static/', encodeURIComponent(file_path))}
+      href={dirJoinAndEncode('/explorer/static/', file_path)}
       target="_blank"
       prefetch={false}
     >

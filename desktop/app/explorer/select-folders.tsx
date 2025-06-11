@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { Select, Spin } from 'antd'
 import { useRouter } from 'next/navigation'
 import { readDirectoryFilesAction } from '@/app/explorer/utils/read-directory-files-action'
-import { pathJoin } from '@/app/explorer/utils/file-utils'
+import { dirJoinAndEncode, pathJoin } from '@/app/explorer/utils/file-utils'
 
 type SelectFoldersProps = {
   dirPath: string
@@ -64,7 +64,7 @@ const SelectFolders = ({ dirPath, basePath = '/explorer/', onChange }: SelectFol
   // 处理选择事件
   const handleSelect = (selectedDir: string) => {
     const newPath = pathJoin(dirPath.split('/').slice(0, -1).join('/'), selectedDir)
-    router.push(pathJoin(basePath, newPath))
+    router.push(dirJoinAndEncode(basePath, newPath))
     if (onChange) {
       onChange(newPath)
     }
