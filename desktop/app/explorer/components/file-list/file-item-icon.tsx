@@ -1,12 +1,23 @@
 import { Flex } from 'antd'
-import { FileOutlined, FileZipOutlined, FolderOpenOutlined, VideoCameraOutlined } from '@ant-design/icons'
+import {
+  FileExcelOutlined,
+  FileMarkdownOutlined,
+  FileOutlined,
+  FilePdfOutlined,
+  FilePptOutlined,
+  FileTextOutlined,
+  FileWordOutlined,
+  FileZipOutlined,
+  FolderOpenOutlined,
+  VideoCameraOutlined,
+} from '@ant-design/icons'
 import { File } from '@/app/explorer/utils/read-directory-files-action'
 import path from 'path'
 import { ImageItem } from '@/app/explorer/image-preview-context'
 import { isImage } from '@/app/explorer/utils/util'
 import { videoExtensionPattern } from '@/app/explorer/media/media-utils'
 import { isArchiveFile } from '@/app/explorer/utils/is-archive-file'
-import { formatFileSize } from '@/app/explorer/utils/file-utils'
+import { formatFileSize, isTextFile } from '@/app/explorer/utils/file-utils'
 import React from 'react'
 
 export function FileItemIcon(file: File) {
@@ -57,6 +68,18 @@ export function FileItemIcon(file: File) {
             <VideoCameraOutlined style={{ fontSize: '30px', marginBottom: '8px' }} />
           ) : isArchiveFile(file.name) ? (
             <FileZipOutlined style={{ fontSize: '30px', marginBottom: '8px' }} />
+          ) : /\.pdf$/i.test(file.name) ? (
+            <FilePdfOutlined style={{ fontSize: '30px', marginBottom: '8px' }} />
+          ) : /\.(doc|docx)$/i.test(file.name) ? (
+            <FileWordOutlined style={{ fontSize: '30px', marginBottom: '8px' }} />
+          ) : /\.(xls|xlsx)$/i.test(file.name) ? (
+            <FileExcelOutlined style={{ fontSize: '30px', marginBottom: '8px' }} />
+          ) : /\.(ppt|pptx)$/i.test(file.name) ? (
+            <FilePptOutlined style={{ fontSize: '30px', marginBottom: '8px' }} />
+          ) : /\.(md|markdown)$/i.test(file.name) ? (
+            <FileMarkdownOutlined style={{ fontSize: '30px', marginBottom: '8px' }} />
+          ) : isTextFile.test(file.name) ? (
+            <FileTextOutlined style={{ fontSize: '30px', marginBottom: '8px' }} />
           ) : (
             <FileOutlined style={{ fontSize: '30px', marginBottom: '8px' }} />
           )}

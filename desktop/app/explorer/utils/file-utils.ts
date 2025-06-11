@@ -27,3 +27,5 @@ export function getFileExtension(fileName: string): string {
 export function replaceDir(dir: string) {
   return dir.replace(/^\/explorer\/?(media)?/, '/')
 }
+
+export const isTextFile = /\.(txt|text|log|md|markdown|csv|tsv|json|xml|yml|yaml|toml|ini|conf|env)$/i
