@@ -12,6 +12,9 @@ type SelectFoldersProps = {
   onChange?: (newPath: string) => void
 }
 
+// 🧠 缓存对象：path => folders[]
+const folderCache = new Map<string, string[]>()
+
 const SelectFolders = ({ dirPath, basePath = '/explorer/', onChange }: SelectFoldersProps) => {
   const [folders, setFolders] = useState<string[]>([])
   const [loading, setLoading] = useState<boolean>(false)
@@ -22,21 +25,39 @@ const SelectFolders = ({ dirPath, basePath = '/explorer/', onChange }: SelectFol
   // 获取当前路径最后一级文件夹名
   const currentFolderName = dirPath.split('/').pop() || '/'
 
+  // 🔁 刷新函数（可复用）
+  const refreshFolders = async (parentPath: string) => {
+    setLoading(true)
+
+    try {
+      const files = await readDirectoryFilesAction(parentPath, 'name-asc')
+      const foldersOnly = files.filter((f) => f.isDirectory).map((f) => f.name)
+
+      folderCache.set(parentPath, foldersOnly)
+      setFolders(foldersOnly)
+
+      setLoading(false)
+    } catch (err) {
+      console.error('刷新目录失败:', err)
+    }
+  }
+
   // 点击下拉时才加载数据
   const handleDropdownVisibleChange = async (open: boolean) => {
     if (open && !hasLoaded) {
-      setLoading(true)
-      try {
-        const parentPath = dirPath.split('/').slice(0, -1).join('/') || '/'
-        const files = await readDirectoryFilesAction(parentPath, 'name-asc')
-        const foldersOnly = files.filter((f) => f.isDirectory).map((f) => f.name)
-        setFolders(foldersOnly)
+      const parentPath = dirPath.split('/').slice(0, -1).join('/') || '/'
+
+      // 1️⃣ 检查缓存是否存在
+      const cached = folderCache.get(parentPath)
+      if (cached) {
+        setFolders(cached)
         setHasLoaded(true)
-      } catch (err) {
-        console.error('读取目录失败:', err)
-      } finally {
-        setLoading(false)
       }
+
+      // 2️⃣ 异步刷新数据（即使有缓存也刷新一次）
+      refreshFolders(parentPath).finally(() => {
+        setHasLoaded(true)
+      })
     }
   }
 
