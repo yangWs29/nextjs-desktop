@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Divider, Space } from 'antd'
+import { Card, Divider, Flex, Space } from 'antd'
 import ExplorerBreadcrumb from '@/app/explorer/components/explorer-breadcrumb'
 import { ActionsBtn, EditProvider } from '@/app/explorer/edit-context'
 import { TerminalProvider } from '@/app/explorer/components/terminal/terminal-context'
@@ -59,23 +59,22 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
           style={{ height: '100vh', borderRadius: 0, display: 'flex', flexDirection: 'column' }}
           styles={{ body: { flex: 1, display: 'flex', flexDirection: 'column', overflow: 'scroll' } }}
         >
-          <div
+          <Flex
             style={{
               flex: 1,
-              display: 'flex',
               overflow: 'hidden',
             }}
           >
             <DirTree />
-            <div
+            <Flex
               style={{
                 flex: 1,
                 overflow: 'auto',
               }}
             >
               {children}
-            </div>
-          </div>
+            </Flex>
+          </Flex>
           <FooterItem />
         </Card>
       </TerminalProvider>

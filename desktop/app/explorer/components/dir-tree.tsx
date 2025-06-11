@@ -142,6 +142,7 @@ const DirTree = () => {
       style={{
         width: 250,
         marginRight: 10,
+        flexShrink: 0,
       }}
       styles={{
         body: {

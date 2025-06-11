@@ -13,6 +13,7 @@ const FileList = async ({ currentPath = '' }: { currentPath: string }) => {
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))',
         gap: 10,
+        flex: 1,
       }}
     >
       <ImagePreviewProvider
