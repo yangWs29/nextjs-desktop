@@ -17,7 +17,7 @@ const Page = async ({ params }: Props) => {
 
   const decode_filepath = filepath.map((file) => decodeURIComponent(file))
 
-  const files = await readDirectoryFilesAction(decode_filepath.slice(0, -1).join('/'))
+  const files = await readDirectoryFilesAction({ dirPath: decode_filepath.slice(0, -1).join('/') })
 
   // 过滤出可播放的视频文件
   const videoFiles = files.filter((file) => {

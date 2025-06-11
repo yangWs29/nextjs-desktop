@@ -30,7 +30,7 @@ const SelectFolders = ({ dirPath, basePath = '/explorer/', onChange }: SelectFol
     setLoading(true)
 
     try {
-      const files = await readDirectoryFilesAction(parentPath, 'name-asc')
+      const files = await readDirectoryFilesAction({ dirPath: parentPath, sortBy: 'name-asc' })
       const foldersOnly = files.filter((f) => f.isDirectory).map((f) => f.name)
 
       folderCache.set(parentPath, foldersOnly)

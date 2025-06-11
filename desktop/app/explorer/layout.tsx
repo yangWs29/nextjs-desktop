@@ -13,10 +13,39 @@ import {
   getHideHiddenOptionFromCookie,
   getSortOptionFromCookie,
 } from '@/app/explorer/utils/get-hide-hidden-option-from-cookie'
+import DirTree from '@/app/explorer/components/dir-tree'
 
-const Layout = async ({ children }: { children: React.ReactNode }) => {
+async function FooterItem() {
   const headerList = await headers()
 
+  return (
+    <>
+      <Divider
+        style={{
+          flexShrink: 0,
+        }}
+      />
+      <Space
+        style={{
+          width: '100%',
+          height: '20px',
+          flexShrink: 0,
+          display: 'flex',
+          justifyContent: 'flex-end',
+          alignItems: 'center',
+        }}
+      >
+        <HardDiskCapacity diskUsage={await checkDiskUsageAction(replaceDir(headerList.get('x-pathname') || '/'))} />
+
+        <ChangeSortServer initialSort={await getSortOptionFromCookie()} />
+
+        <SwitchHiddenFiles initialHiddenFiles={await getHideHiddenOptionFromCookie()} />
+      </Space>
+    </>
+  )
+}
+
+const Layout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <EditProvider>
       <TerminalProvider>
@@ -30,28 +59,37 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
           style={{ height: '100vh', borderRadius: 0, display: 'flex', flexDirection: 'column' }}
           styles={{ body: { flex: 1, display: 'flex', flexDirection: 'column', overflow: 'scroll' } }}
         >
-          <div style={{ flex: 1, overflow: 'scroll', display: 'flex', flexDirection: 'column' }}>{children}</div>
-          <Divider
+          <div
             style={{
-              flexShrink: 0,
-            }}
-          />
-          <Space
-            style={{
-              width: '100%',
-              height: '20px',
-              flexShrink: 0,
+              flex: 1,
               display: 'flex',
-              justifyContent: 'flex-end',
-              alignItems: 'center',
+              overflow: 'hidden',
             }}
           >
-            <HardDiskCapacity diskUsage={await checkDiskUsageAction(replaceDir(headerList.get('x-pathname') || '/'))} />
-
-            <ChangeSortServer initialSort={await getSortOptionFromCookie()} />
-
-            <SwitchHiddenFiles initialHiddenFiles={await getHideHiddenOptionFromCookie()} />
-          </Space>
+            <Card
+              style={{
+                width: 250,
+                marginRight: 10,
+              }}
+              styles={{
+                body: {
+                  overflowY: 'scroll',
+                  height: '100%',
+                },
+              }}
+            >
+              <DirTree />
+            </Card>
+            <div
+              style={{
+                flex: 1,
+                overflow: 'auto',
+              }}
+            >
+              {children}
+            </div>
+          </div>
+          <FooterItem />
         </Card>
       </TerminalProvider>
     </EditProvider>

@@ -24,7 +24,7 @@ const TreeSelectDir: React.FC<InputSelectDirProps> = ({ baseDir, onSelect }) => 
 
   // 读取单个目录下的子目录
   const loadSubDirectories = async (dirPath: string): Promise<DirNode[]> => {
-    const files = await readDirectoryFilesAction(dirPath)
+    const files = await readDirectoryFilesAction({ dirPath })
     return files
       .filter((file) => file.isDirectory)
       .map((file) => {

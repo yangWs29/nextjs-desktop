@@ -5,7 +5,7 @@ import { ImagePreviewProvider } from '@/app/explorer/image-preview-context'
 import FileListItem from '@/app/explorer/components/file-list/file-list-item'
 
 const FileList = async ({ currentPath = '' }: { currentPath: string }) => {
-  const files = await readDirectoryFilesAction(currentPath)
+  const files = await readDirectoryFilesAction({ dirPath: currentPath })
 
   return (
     <div

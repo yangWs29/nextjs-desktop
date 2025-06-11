@@ -30,15 +30,20 @@ const isHiddenFile = (filename: string): boolean => {
   return filename.startsWith('.')
 }
 
-export const readDirectoryFilesAction = async (
-  dirPath: string = '',
-  sortBy?: SortOptionType,
-  hideHiddenFiles?: boolean, // 新增参数
-): Promise<File[]> => {
+export const readDirectoryFilesAction = async ({
+  dirPath = '',
+  sortBy,
+  hideHiddenFiles,
+  onlyDir = false,
+}: {
+  dirPath: string
+  sortBy?: SortOptionType
+  hideHiddenFiles?: boolean
+  onlyDir?: boolean
+}): Promise<File[]> => {
   try {
     const resolvedSortBy = sortBy || (await getSortOptionFromCookie())
-    const resolvedHideHidden =
-      typeof hideHiddenFiles === 'boolean' ? hideHiddenFiles : await getHideHiddenOptionFromCookie()
+    const resolvedHideHidden = hideHiddenFiles ? hideHiddenFiles : await getHideHiddenOptionFromCookie()
 
     const fullPath = path.join(app_config.explorer_base_path, decodeURIComponent(dirPath))
     const files = await fs.readdir(fullPath, { withFileTypes: true })
@@ -64,24 +69,28 @@ export const readDirectoryFilesAction = async (
     )
 
     // 排序逻辑
-    return filesWithStats.sort((a, b) => {
-      switch (resolvedSortBy) {
-        case 'name-asc':
-          return a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' })
-        case 'name-desc':
-          return b.name.localeCompare(a.name, undefined, { numeric: true, sensitivity: 'base' })
-        case 'date-asc':
-          return a.createdAt.getTime() - b.createdAt.getTime()
-        case 'date-desc':
-          return b.createdAt.getTime() - a.createdAt.getTime()
-        case 'size-asc':
-          return a.size - b.size
-        case 'size-desc':
-          return b.size - a.size
-        default:
-          return 0
-      }
-    })
+    return filesWithStats
+      .filter(({ isDirectory }) => {
+        return !onlyDir || isDirectory
+      })
+      .sort((a, b) => {
+        switch (resolvedSortBy) {
+          case 'name-asc':
+            return a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' })
+          case 'name-desc':
+            return b.name.localeCompare(a.name, undefined, { numeric: true, sensitivity: 'base' })
+          case 'date-asc':
+            return a.createdAt.getTime() - b.createdAt.getTime()
+          case 'date-desc':
+            return b.createdAt.getTime() - a.createdAt.getTime()
+          case 'size-asc':
+            return a.size - b.size
+          case 'size-desc':
+            return b.size - a.size
+          default:
+            return 0
+        }
+      })
   } catch (error) {
     console.error(`Error reading directory ${decodeURIComponent(dirPath)}:`, error)
     return []
