@@ -36,7 +36,7 @@ const DirTree = () => {
 
   // 加载子目录
   const loadSubDirs = async (node: TreeNode) => {
-    if (node.isLeaf) return
+    if (node.children?.length) return
 
     try {
       const subDirs = await readDirectoryFilesAction({ dirPath: node.key, onlyDir: true })
@@ -102,7 +102,7 @@ const DirTree = () => {
     }
 
     const keys = findExpandedKeys(treeData, pathSegments)
-    setExpandedKeys(keys)
+    setExpandedKeys(expandedKeys.length ? expandedKeys : keys)
   }, [pathname, treeData]) // 依赖 pathname 和 treeData
 
   // 节点展开/收起回调
