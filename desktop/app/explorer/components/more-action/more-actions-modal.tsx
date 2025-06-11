@@ -82,7 +82,7 @@ const MoreActionsModal = ({
             baseDir={baseDir}
             onExtractSubmitAction={(command) => {
               const socket = getSocket()
-              socket.emit('terminal-input', command)
+              socket.emit('terminal-cmd', command)
               terminal?.current?.focus()
             }}
           />
@@ -95,8 +95,8 @@ const MoreActionsModal = ({
             fileName={file.name}
             onMoveSubmitAction={(sourcePath, targetPath) => {
               const socket = getSocket()
-              const command = `mv "${sourcePath}" "${targetPath}"`
-              socket.emit('terminal-input', command)
+              const command = ['mv', sourcePath, targetPath]
+              socket.emit('terminal-cmd', command)
               terminal?.current?.focus()
             }}
           />

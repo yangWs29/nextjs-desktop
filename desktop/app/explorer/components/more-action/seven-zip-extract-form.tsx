@@ -1,11 +1,12 @@
 'use client'
 import { Form, Input, Button, Switch, Space } from 'antd'
 import BtnTreeSelectDir from '@/app/explorer/components/btn-tree-select-dir'
+import { pathJoin } from '@/app/explorer/utils/file-utils'
 
 interface SevenZipExtractFormProps {
   fileName: string // 当前文件名
   baseDir?: string // 基础路径
-  onExtractSubmitAction: (command: string) => void // 提交命令回调
+  onExtractSubmitAction: (command: string[]) => void // 提交命令回调
 }
 
 export default function SevenZipExtractForm({
@@ -17,13 +18,17 @@ export default function SevenZipExtractForm({
 
   const handleSubmit = (values: any) => {
     const action = values.preview ? 'l' : 'x' // l = list, x = extract
-    const command = ['7z', action, `-p${values.password || ''}`, values.filename]
+    const command = ['7z', action, values.filename]
 
-    if (!values.preview) {
-      command.push(`-o${baseDir}${values.savePath}`)
+    if (values.password) {
+      command.push(`-p${values.password}`)
     }
 
-    onExtractSubmitAction(command.join(' '))
+    if (!values.preview && values.savePath) {
+      command.push(`-o${pathJoin(baseDir, values.savePath)}`)
+    }
+
+    onExtractSubmitAction(command)
   }
 
   return (
@@ -35,7 +40,7 @@ export default function SevenZipExtractForm({
         <Form.Item label="解压密码" name="password">
           <Input placeholder="输入密码（可选）" />
         </Form.Item>
-        <Form.Item label="保存路径" name="savePath" rules={[{ required: true }]}>
+        <Form.Item label="保存路径" name="savePath">
           <Input
             placeholder="选择保存路径"
             addonAfter={

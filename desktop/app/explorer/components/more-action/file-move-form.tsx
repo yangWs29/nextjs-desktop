@@ -1,6 +1,7 @@
 'use client'
 import { Form, Input, Button } from 'antd'
 import BtnTreeSelectDir from '@/app/explorer/components/btn-tree-select-dir'
+import { pathJoin } from '@/app/explorer/utils/file-utils'
 
 interface FileMoveFormProps {
   currentPath: string
@@ -13,8 +14,8 @@ export default function FileMoveForm({ currentPath, baseDir = '/', fileName, onM
   const [form] = Form.useForm()
 
   const handleSubmit = (values: any) => {
-    const sourcePath = `${baseDir}${currentPath}/${fileName}`
-    const targetPath = `${baseDir}${values.moveTarget}`
+    const sourcePath = pathJoin(baseDir, currentPath, fileName)
+    const targetPath = pathJoin(baseDir, values.moveTarget)
 
     onMoveSubmitAction(sourcePath, targetPath)
   }
