@@ -57,7 +57,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
             </Space>
           }
           style={{ height: '100vh', borderRadius: 0, display: 'flex', flexDirection: 'column' }}
-          styles={{ body: { flex: 1, display: 'flex', flexDirection: 'column', overflow: 'scroll' } }}
+          styles={{ body: { flex: 1, display: 'flex', flexDirection: 'column', overflow: 'auto' } }}
         >
           <Flex
             style={{
@@ -66,15 +66,10 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
             }}
           >
             <DirTree />
-            <Flex
-              style={{
-                flex: 1,
-                overflow: 'auto',
-              }}
-            >
-              {children}
-            </Flex>
+
+            <div style={{ flex: 1, overflow: 'auto' }}>{children}</div>
           </Flex>
+
           <FooterItem />
         </Card>
       </TerminalProvider>
