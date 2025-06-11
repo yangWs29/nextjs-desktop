@@ -1,5 +1,27 @@
-const DEFAULT_PREVIEWABLE_MIME_TYPES = ['text/*', 'image/*', 'video/*', 'application/pdf']
-const DEFAULT_PREVIEWABLE_EXTENSIONS = ['.md', '.log', '.csv']
+const DEFAULT_PREVIEWABLE_MIME_TYPES = [
+  'text/*',
+  'image/*',
+  'video/*',
+  'application/pdf',
+  'application/xhtml+xml',
+  'application/xml',
+  'application/json',
+  'application/javascript',
+  'audio/*',
+]
+const DEFAULT_PREVIEWABLE_EXTENSIONS = [
+  '.md',
+  '.markdown',
+  '.log',
+  '.csv',
+  '.txt',
+  '.json',
+  '.xml',
+  '.html',
+  '.js',
+  '.ts',
+  '.tsx',
+]
 
 export function isPreviewable(mimeType: string, ext: string): boolean {
   const PREVIEWABLE_MIME_TYPES = (process.env.PREVIEWABLE_MIME_TYPES || DEFAULT_PREVIEWABLE_MIME_TYPES.join(','))

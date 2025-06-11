@@ -5,6 +5,7 @@ import { Readable } from 'stream'
 import { parseRangeHeader } from '@/app/explorer/static/parse-range-header'
 import { app_config } from '@/app-config.mjs'
 import { isPreviewable } from '@/app/explorer/static/is-previewable'
+import mimeType from '@/app/explorer/static/mime-type'
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
   // 获取请求路径
@@ -27,52 +28,14 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
     // 解析文件扩展名并设置 MIME 类型
     const ext = extname(fullPath).toLowerCase()
-    const mimeType =
-      {
-        '.txt': 'text/plain',
-        '.html': 'text/html',
-        '.css': 'text/css',
-        '.js': 'application/javascript',
-        '.json': 'application/json',
-        '.xml': 'application/xml',
-        '.png': 'image/png',
-        '.jpg': 'image/jpeg',
-        '.jpeg': 'image/jpeg',
-        '.gif': 'image/gif',
-        '.mp4': 'video/mp4',
-        '.webm': 'video/webm',
-        '.ogg': 'video/ogg',
-        '.mov': 'video/quicktime',
-        '.avi': 'video/x-msvideo',
-        '.wmv': 'video/x-ms-wmv',
-        '.flv': 'video/x-flv',
-        '.mkv': 'video/x-matroska',
-        '.pdf': 'application/pdf',
-        '.zip': 'application/zip',
-        '.rar': 'application/x-rar-compressed',
-        '.tar': 'application/x-tar',
-        '.gz': 'application/gzip',
-        '.7z': 'application/x-7z-compressed',
-        '.doc': 'application/msword',
-        '.docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        '.xls': 'application/vnd.ms-excel',
-        '.xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        '.ppt': 'application/vnd.ms-powerpoint',
-        '.pptx': 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-        '.svg': 'image/svg+xml',
-        '.ico': 'image/x-icon',
-        '.woff': 'font/woff',
-        '.woff2': 'font/woff2',
-        '.ttf': 'font/ttf',
-        '.eot': 'application/vnd.ms-fontobject',
-      }[ext] || 'application/octet-stream'
+    const contentType = mimeType[ext] || 'application/octet-stream'
 
     // 判断是否浏览器可以直接预览
-    const isPreviewableType = isPreviewable(mimeType, ext)
+    const isPreviewableType = isPreviewable(contentType, ext)
 
     // 构建响应头
     const headers: Record<string, string> = {
-      'Content-Type': mimeType,
+      'Content-Type': contentType,
       'Cache-Control': 'public, max-age=31536000, immutable',
       ETag: Buffer.from(fullPath).toString('base64'),
       'Last-Modified': fileStat.mtime.toUTCString(),
