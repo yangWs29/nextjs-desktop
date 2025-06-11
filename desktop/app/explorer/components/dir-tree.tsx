@@ -20,6 +20,7 @@ const DirTree = () => {
   const pathname = usePathname() // ✅ 使用 usePathname 获取当前路径
   const [treeData, setTreeData] = useState<TreeNode[]>([])
   const [expandedKeys, setExpandedKeys] = useState<TreeKey[]>([])
+  const [isUserExpand, setIsUserExpand] = useState(false)
 
   // 映射文件数据为 TreeNode 结构
   const mapToTreeNode = (items: Array<File>, parentKey: string): TreeNode[] => {
@@ -77,6 +78,7 @@ const DirTree = () => {
 
   // 🌟 首次挂载时根据 pathname 自动展开对应节点
   useEffect(() => {
+    if (isUserExpand) return
     if (treeData.length === 0) return
 
     // 🔹 获取当前路径并去除 /explorer 前缀
@@ -102,12 +104,13 @@ const DirTree = () => {
     }
 
     const keys = findExpandedKeys(treeData, pathSegments)
-    setExpandedKeys(expandedKeys.length ? expandedKeys : keys)
+    setExpandedKeys(keys)
   }, [pathname, treeData]) // 依赖 pathname 和 treeData
 
   // 节点展开/收起回调
   const onExpand = (keys: TreeKey[]) => {
     setExpandedKeys(keys)
+    setIsUserExpand(true)
   }
 
   // 自定义节点标题渲染
