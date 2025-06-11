@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation' // 👈 引入 usePathname
-import { Tree } from 'antd'
+import { Card, Tree } from 'antd'
 import { File, readDirectoryFilesAction } from '@/app/explorer/utils/read-directory-files-action'
 import { pathJoin } from '@/app/explorer/utils/file-utils'
 import Link from 'next/link'
@@ -21,6 +21,9 @@ const DirTree = () => {
   const [treeData, setTreeData] = useState<TreeNode[]>([])
   const [expandedKeys, setExpandedKeys] = useState<TreeKey[]>([])
   const [isUserExpand, setIsUserExpand] = useState(false)
+
+  // 判断 pathname 的前部分为 /explorer/media 时不显示组件
+  if (pathname?.startsWith('/explorer/media')) return null
 
   // 映射文件数据为 TreeNode 结构
   const mapToTreeNode = (items: Array<File>, parentKey: string): TreeNode[] => {
@@ -135,17 +138,30 @@ const DirTree = () => {
   }
 
   return (
-    <Tree
-      treeData={treeData}
-      onExpand={onExpand}
-      expandedKeys={expandedKeys}
-      loadData={(node) => loadSubDirs(node as TreeNode)}
-      titleRender={titleRender}
-      showIcon={false}
-      switcherIcon={({ expanded }) => {
-        return expanded ? <FolderOpenOutlined /> : <FolderOutlined style={{ transform: 'rotate(90deg)' }} />
+    <Card
+      style={{
+        width: 250,
+        marginRight: 10,
       }}
-    />
+      styles={{
+        body: {
+          overflowY: 'scroll',
+          height: '100%',
+        },
+      }}
+    >
+      <Tree
+        treeData={treeData}
+        onExpand={onExpand}
+        expandedKeys={expandedKeys}
+        loadData={(node) => loadSubDirs(node as TreeNode)}
+        titleRender={titleRender}
+        showIcon={false}
+        switcherIcon={({ expanded }) => {
+          return expanded ? <FolderOpenOutlined /> : <FolderOutlined style={{ transform: 'rotate(90deg)' }} />
+        }}
+      />
+    </Card>
   )
 }
 

@@ -66,20 +66,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
               overflow: 'hidden',
             }}
           >
-            <Card
-              style={{
-                width: 250,
-                marginRight: 10,
-              }}
-              styles={{
-                body: {
-                  overflowY: 'scroll',
-                  height: '100%',
-                },
-              }}
-            >
-              <DirTree />
-            </Card>
+            <DirTree />
             <div
               style={{
                 flex: 1,
