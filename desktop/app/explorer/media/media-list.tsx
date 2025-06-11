@@ -21,7 +21,7 @@ export const MediaList: React.FC<MediaListProps> = ({ videoFiles, mediaDir, file
   }
 
   return (
-    <List>
+    <List style={{ maxWidth: '240px', overflowY: 'auto' }}>
       {videoFiles.map((file, index) => (
         <List.Item key={index} style={{ padding: '8px' }}>
           <Link href={dirJoinAndEncode('/explorer/media/', mediaDir, file.name)}>
