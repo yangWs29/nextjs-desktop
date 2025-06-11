@@ -22,9 +22,6 @@ const DirTree = () => {
   const [expandedKeys, setExpandedKeys] = useState<TreeKey[]>([])
   const [isUserExpand, setIsUserExpand] = useState(false)
 
-  // 判断 pathname 的前部分为 /explorer/media 时不显示组件
-  if (pathname?.startsWith('/explorer/media')) return null
-
   // 映射文件数据为 TreeNode 结构
   const mapToTreeNode = (items: Array<File>, parentKey: string): TreeNode[] => {
     return items.map((item) => {
@@ -136,6 +133,9 @@ const DirTree = () => {
       </Link>
     )
   }
+
+  // 判断 pathname 的前部分为 /explorer/media 时不显示组件
+  if (pathname?.startsWith('/explorer/media')) return null
 
   return (
     <Card
