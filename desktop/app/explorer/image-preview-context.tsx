@@ -79,7 +79,7 @@ export const ImageItem = ({ file_path }: { file_path: string }) => {
         cursor: 'pointer',
       }}
       unoptimized={file_path.endsWith('.gif')}
-      sizes="100px"
+      sizes="360px"
     />
   )
 }
