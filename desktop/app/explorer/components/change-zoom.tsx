@@ -7,15 +7,8 @@ export default function ZoomSlider({ zoomLevel }: { zoomLevel: number }) {
     <Slider
       style={{ width: '120px' }}
       min={1.0}
-      max={3.0}
-      step={0.4}
-      marks={{
-        1.4: '1.4',
-        1.8: '1.8',
-        2.2: '2.2',
-        2.6: '2.6',
-        3.0: '3.0',
-      }}
+      max={4}
+      step={0.8}
       value={zoomLevel}
       onChange={(value) => {
         return changeZoomLevel(value)
