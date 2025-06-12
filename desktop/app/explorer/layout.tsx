@@ -5,7 +5,7 @@ import { ActionsBtn, EditProvider } from '@/app/explorer/edit-context'
 import { TerminalProvider } from '@/app/explorer/components/terminal/terminal-context'
 import HardDiskCapacity from '@/app/explorer/components/hard-disk-capacity'
 import { ChangeSortServer } from '@/app/explorer/components/change-sort'
-import { headers } from 'next/headers'
+import { cookies, headers } from 'next/headers'
 import { checkDiskUsageAction } from '@/app/explorer/actions'
 import { replaceDir } from '@/app/explorer/utils/file-utils'
 import SwitchHiddenFiles from '@/app/explorer/components/switch-hidden-files'
@@ -42,7 +42,7 @@ async function FooterItem() {
 
         <SwitchHiddenFiles initialHiddenFiles={await getHideHiddenOptionFromCookie()} />
 
-        <ZoomSlider />
+        <ZoomSlider zoomLevel={Number((await cookies()).get('zoomLevel')?.value || 1)} />
       </Space>
     </>
   )

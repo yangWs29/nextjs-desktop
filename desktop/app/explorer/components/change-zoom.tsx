@@ -1,17 +1,8 @@
 'use client'
-
-import { useState } from 'react'
 import { Slider } from 'antd'
 import { changeZoomLevel } from '@/app/explorer/actions'
 
-export default function ZoomSlider() {
-  const [value, setValue] = useState(1) // 初始值为 1.2
-
-  const handleChange = async (newValue: number) => {
-    setValue(newValue)
-    await changeZoomLevel(newValue) // 调用 server action 更新 cookie
-  }
-
+export default async function ZoomSlider({ zoomLevel }: { zoomLevel: number }) {
   return (
     <Slider
       style={{ width: '120px' }}
@@ -25,8 +16,10 @@ export default function ZoomSlider() {
         2.6: '2.6',
         3.0: '3.0',
       }}
-      value={value}
-      onChange={handleChange}
+      value={zoomLevel}
+      onChange={(value) => {
+        return changeZoomLevel(value)
+      }}
     />
   )
 }
