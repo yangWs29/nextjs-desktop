@@ -10,7 +10,7 @@ const SocketHandler = (req: any, res: any) => {
     const io = new Server(res.socket.server, { path: '/api/terminal-socket', addTrailingSlash: false })
 
     io.on('connection', (socket) => {
-      const pty = spawn('sh', [], { name: 'xterm-color', cwd: process.env.HOME })
+      const pty = spawn('sh', [], { name: 'xterm-color', cwd: process.cwd() })
 
       pty.onData((data) => {
         socket.emit('terminal-output', data)

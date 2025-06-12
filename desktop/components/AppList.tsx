@@ -2,7 +2,7 @@ import React from 'react'
 import { Card } from 'antd'
 import Link from 'next/link'
 
-const app_list = ['explorer']
+const app_list = ['explorer', 'certificates']
 
 const AppList = () => {
   return (
