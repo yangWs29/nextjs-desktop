@@ -16,7 +16,6 @@ export async function changeZoomLevel(zoomLevel: number) {
   // 设置 zoomLevel 到 cookie
   ;(await cookies()).set('zoomLevel', zoomLevel.toString(), {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production', // 在生产环境启用 HTTPS
     maxAge: 60 * 60 * 24 * 7, // 有效期为 7 天
     path: '/',
   })

@@ -2,7 +2,7 @@
 import { Slider } from 'antd'
 import { changeZoomLevel } from '@/app/explorer/actions'
 
-export default async function ZoomSlider({ zoomLevel }: { zoomLevel: number }) {
+export default function ZoomSlider({ zoomLevel }: { zoomLevel: number }) {
   return (
     <Slider
       style={{ width: '120px' }}
