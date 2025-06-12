@@ -14,6 +14,7 @@ import {
   getSortOptionFromCookie,
 } from '@/app/explorer/utils/get-hide-hidden-option-from-cookie'
 import DirTree from '@/app/explorer/components/dir-tree'
+import ZoomSlider from '@/app/explorer/components/change-zoom'
 
 async function FooterItem() {
   const headerList = await headers()
@@ -40,6 +41,8 @@ async function FooterItem() {
         <ChangeSortServer initialSort={await getSortOptionFromCookie()} />
 
         <SwitchHiddenFiles initialHiddenFiles={await getHideHiddenOptionFromCookie()} />
+
+        <ZoomSlider />
       </Space>
     </>
   )
