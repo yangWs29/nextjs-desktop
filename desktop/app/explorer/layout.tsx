@@ -15,7 +15,6 @@ import {
 } from '@/app/explorer/utils/get-hide-hidden-option-from-cookie'
 import DirTree from '@/app/explorer/components/dir-tree'
 import ZoomSlider from '@/app/explorer/components/change-zoom'
-import { ScrollContainer } from '@/app/explorer/components/scroll-container'
 
 async function FooterItem() {
   const headerList = await headers()
@@ -71,7 +70,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
           >
             <DirTree />
 
-            <ScrollContainer>{children}</ScrollContainer>
+            {children}
           </Flex>
 
           <FooterItem />

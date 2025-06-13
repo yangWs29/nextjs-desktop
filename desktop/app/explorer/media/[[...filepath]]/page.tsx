@@ -33,7 +33,7 @@ const Page = async ({ params }: Props) => {
       style={{ flex: 1, display: 'flex', flexDirection: 'column' }}
       styles={{ body: { flex: 1, overflow: 'hidden', display: 'flex' } }}
     >
-      <Flex style={{ flex: 1, flexShrink: 0, marginRight: 20, overflow: 'hidden' }} align="flex-start">
+      <Flex style={{ flex: 1, flexShrink: 0, marginRight: 20, overflow: 'hidden' }} align="stretch">
         <VideoPlayer src={path.join('/explorer/static/', decode_filepath.join('/'))} />
       </Flex>
       <MediaList
