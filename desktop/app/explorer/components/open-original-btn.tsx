@@ -2,13 +2,13 @@
 import { ExportOutlined } from '@ant-design/icons'
 import React from 'react'
 import { dirJoinAndEncode } from '@/app/explorer/utils/file-utils'
-import { useEdit } from '@/app/explorer/edit-context'
+import { useSelected } from '@/app/explorer/more-context'
 import Link from 'next/link'
 
 const OpenOriginalBtn = ({ file_path }: { file_path: string }) => {
-  const { edit } = useEdit()
+  const { selected } = useSelected()
 
-  return edit ? null : (
+  return selected ? null : (
     <Link
       style={{
         position: 'absolute',

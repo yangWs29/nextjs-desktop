@@ -1,5 +1,5 @@
 import { Card } from 'antd'
-import { FileItemCheckbox } from '@/app/explorer/edit-context'
+import { FileItemCheckbox } from '@/app/explorer/more-context'
 import path from 'path'
 import { FileItemIcon } from '@/app/explorer/components/file-list/file-item-icon'
 import Link from 'next/link'

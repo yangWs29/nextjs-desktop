@@ -1,34 +1,34 @@
 // edit-context.tsx
 'use client'
 import React, { createContext, useState, useContext, useCallback } from 'react'
-import { CloseOutlined, DeleteOutlined, ToolOutlined } from '@ant-design/icons'
+import { CloseOutlined, DeleteOutlined, MoreOutlined } from '@ant-design/icons'
 import { App, Button, Card, Checkbox, Modal, Space } from 'antd'
 import { deleteFileAction } from '@/app/explorer/actions'
 
 type EditContextType = {
-  edit: boolean
-  toggleEdit: () => void
+  selected: boolean
+  toggleSelected: () => void
   isInclude: (file: string) => boolean
   files: string[]
   toggleFile: (file: string) => void
   changeFiles: React.Dispatch<React.SetStateAction<string[]>>
 }
 
-const EditContext = createContext<EditContextType | undefined>(undefined)
+const MoreContext = createContext<EditContextType | undefined>(undefined)
 
 export const EditProvider = ({ children }: { children: React.ReactNode }) => {
-  const [edit, setEdit] = useState(false)
+  const [selected, setSelected] = useState(false)
   const [files, changeFiles] = useState<string[]>([])
 
-  const toggleEdit = useCallback(() => {
-    setEdit((prev) => !prev)
+  const toggleSelected = useCallback(() => {
+    setSelected((prev) => !prev)
   }, [])
 
   return (
-    <EditContext.Provider
+    <MoreContext.Provider
       value={{
-        edit,
-        toggleEdit,
+        selected,
+        toggleSelected,
         files,
         changeFiles,
         isInclude: (file: string) => files.includes(file),
@@ -44,28 +44,51 @@ export const EditProvider = ({ children }: { children: React.ReactNode }) => {
       }}
     >
       {children}
-    </EditContext.Provider>
+    </MoreContext.Provider>
   )
 }
 
-export const useEdit = () => {
-  const context = useContext(EditContext)
+export const useSelected = () => {
+  const context = useContext(MoreContext)
   if (context === undefined) {
-    throw new Error('useEdit must be used within an EditProvider')
+    throw new Error('useSelected must be used within an SelectedProvider')
   }
   return context
 }
 
 export const FileItemCheckbox = ({ hrefDir }: { hrefDir: string }) => {
-  const { isInclude, toggleFile, edit } = useEdit()
+  const { isInclude, toggleFile, selected } = useSelected()
+  const { message, modal } = App.useApp()
 
   return (
-    edit && (
+    selected && (
       <Card style={{ position: 'absolute', width: '100%', height: '100%', zIndex: 1, background: 'rgba(0,0,0,.5)' }}>
         <Checkbox
-          style={{ position: 'absolute', top: 5, right: 10 }}
+          style={{ position: 'absolute', top: 5, left: 10 }}
           onChange={() => toggleFile(hrefDir)}
           checked={isInclude(hrefDir)}
+        />
+        <Button
+          style={{ position: 'absolute', top: 10, right: 10 }}
+          icon={<DeleteOutlined />}
+          danger
+          onClick={() => {
+            modal.confirm({
+              title: '确认删除',
+              content: `你确定要删除文件 ${hrefDir} 吗？`,
+              okText: '确认删除',
+              okButtonProps: { danger: true },
+              cancelText: '取消',
+              onOk: async () => {
+                const result = await deleteFileAction([hrefDir])
+                if (result.success) {
+                  message.success(result?.results?.map(({ message }) => message).join(','))
+                } else {
+                  message.error(result?.results?.map(({ message }) => message).join(','))
+                }
+              },
+            })
+          }}
         />
       </Card>
     )
@@ -73,7 +96,7 @@ export const FileItemCheckbox = ({ hrefDir }: { hrefDir: string }) => {
 }
 
 export const ActionsBtn = () => {
-  const { toggleEdit, edit, files, changeFiles } = useEdit()
+  const { toggleSelected, selected, files, changeFiles } = useSelected()
   const { message } = App.useApp()
   const [confirmVisible, setConfirmVisible] = useState(false)
 
@@ -104,7 +127,7 @@ export const ActionsBtn = () => {
 
   return (
     <Space>
-      {edit && (
+      {selected && (
         <>
           <Button icon={<DeleteOutlined />} danger={true} onClick={showConfirm} />
           <Modal
@@ -126,7 +149,7 @@ export const ActionsBtn = () => {
           </Modal>
         </>
       )}
-      <Button icon={edit ? <CloseOutlined /> : <ToolOutlined />} onClick={toggleEdit} />
+      <Button icon={selected ? <CloseOutlined /> : <MoreOutlined />} onClick={toggleSelected} />
     </Space>
   )
 }

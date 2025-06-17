@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card, Divider, Flex, Space } from 'antd'
 import ExplorerBreadcrumb from '@/app/explorer/components/explorer-breadcrumb'
-import { ActionsBtn, EditProvider } from '@/app/explorer/edit-context'
+import { ActionsBtn, EditProvider } from '@/app/explorer/more-context'
 import { TerminalProvider } from '@/app/explorer/components/terminal/terminal-context'
 import HardDiskCapacity from '@/app/explorer/components/hard-disk-capacity'
 import { ChangeSortServer } from '@/app/explorer/components/change-sort'
