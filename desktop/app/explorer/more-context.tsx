@@ -74,7 +74,7 @@ export const FileItemCheckbox = ({ hrefDir }: { hrefDir: string }) => {
         onClick={() => toggleFile(hrefDir)}
       >
         <Button
-          style={{ position: 'absolute', top: 10, right: 10 }}
+          style={{ position: 'absolute', top: 0, right: 0 }}
           icon={<DeleteOutlined />}
           danger
           onClick={(e) => {
