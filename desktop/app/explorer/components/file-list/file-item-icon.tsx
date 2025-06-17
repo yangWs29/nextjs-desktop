@@ -83,18 +83,20 @@ export function FileItemIcon(file: File) {
           ) : (
             <FileOutlined style={{ fontSize: '30px', marginBottom: '8px' }} />
           )}
-          <span
-            style={{
-              position: 'absolute',
-              bottom: 0,
-              right: 5,
-              fontSize: '12px',
-              color: '#666',
-              pointerEvents: 'none',
-            }}
-          >
-            {file.name.split('.').pop()}
-          </span>
+          {!file.isDirectory && (
+            <span
+              style={{
+                position: 'absolute',
+                top: 0,
+                right: 5,
+                fontSize: '12px',
+                color: '#666',
+                pointerEvents: 'none',
+              }}
+            >
+              {file.name.split('.').pop()}
+            </span>
+          )}
         </div>
       }
     </Flex>
