@@ -37,7 +37,7 @@ export function FileItemIcon(file: File) {
           style={{
             position: 'absolute',
             bottom: 0,
-            left: 0,
+            left: 5,
             fontSize: '12px',
             pointerEvents: 'none',
             zIndex: 1,
@@ -49,11 +49,7 @@ export function FileItemIcon(file: File) {
           {formatFileSize(file.size)}
         </span>
       )}
-      {file.isDirectory ? (
-        <FolderOpenOutlined style={{ fontSize: '30px', marginBottom: '8px' }} />
-      ) : isImage(file.name) ? (
-        <ImageItem file_path={path.join(file.dirPath, file.name)} />
-      ) : (
+      {
         <div
           style={{
             position: 'relative',
@@ -64,7 +60,11 @@ export function FileItemIcon(file: File) {
             alignItems: 'center',
           }}
         >
-          {videoExtensionPattern.test(file.name) ? (
+          {file.isDirectory ? (
+            <FolderOpenOutlined style={{ fontSize: '30px', marginBottom: '8px' }} />
+          ) : isImage(file.name) ? (
+            <ImageItem file_path={path.join(file.dirPath, file.name)} />
+          ) : videoExtensionPattern.test(file.name) ? (
             <VideoCameraOutlined style={{ fontSize: '30px', marginBottom: '8px' }} />
           ) : isArchiveFile(file.name) ? (
             <FileZipOutlined style={{ fontSize: '30px', marginBottom: '8px' }} />
@@ -87,7 +87,7 @@ export function FileItemIcon(file: File) {
             style={{
               position: 'absolute',
               bottom: 0,
-              right: 0,
+              right: 5,
               fontSize: '12px',
               color: '#666',
               pointerEvents: 'none',
@@ -96,7 +96,7 @@ export function FileItemIcon(file: File) {
             {file.name.split('.').pop()}
           </span>
         </div>
-      )}
+      }
     </Flex>
   )
 }

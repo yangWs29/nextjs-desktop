@@ -26,8 +26,8 @@ const FileListItem = ({ files, currentPath }: { files: File[]; currentPath: stri
             padding: '5px 5px 5px 5px',
           },
         }}
+        cover={<FileItemIcon {...file} />}
       >
-        <FileItemIcon {...file} />
         <div
           title={file.name}
           style={{
