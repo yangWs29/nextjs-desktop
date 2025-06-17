@@ -8,7 +8,6 @@ import MoreActionsModal from '@/app/explorer/components/more-action/more-actions
 import React from 'react'
 import { isPlayableVideo } from '@/app/explorer/media/media-utils'
 import { app_config } from '@/app-config.mjs'
-import OpenOriginalBtn from '@/app/explorer/components/open-original-btn'
 import { dirJoinAndEncode } from '@/app/explorer/utils/file-utils'
 
 const FileListItem = ({ files, currentPath }: { files: File[]; currentPath: string }) => {
@@ -39,7 +38,17 @@ const FileListItem = ({ files, currentPath }: { files: File[]; currentPath: stri
             wordWrap: 'break-word',
           }}
         >
-          {file.name}
+          {file.isDirectory ? (
+            file.name
+          ) : (
+            <Link
+              href={dirJoinAndEncode('/explorer/static/', file.dirPath, file.name)}
+              target="_blank"
+              prefetch={false}
+            >
+              {file.name}
+            </Link>
+          )}
         </div>
       </Card>
     )
@@ -48,7 +57,6 @@ const FileListItem = ({ files, currentPath }: { files: File[]; currentPath: stri
       <div key={index} style={{ position: 'relative' }}>
         <MoreActionsModal currentPath={currentPath} file={file} baseDir={app_config.explorer_base_path} />
         <FileItemCheckbox hrefDir={path.join(currentPath || 'explorer', file.name)} />
-        {!file.isDirectory && <OpenOriginalBtn file_path={path.join(file.dirPath, file.name)} />}
 
         {file.isDirectory ? (
           <Link href={dirJoinAndEncode('/explorer', currentPath, file.name)}>
