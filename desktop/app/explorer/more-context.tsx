@@ -1,8 +1,7 @@
-// edit-context.tsx
 'use client'
 import React, { createContext, useState, useContext, useCallback } from 'react'
 import { CloseOutlined, DeleteOutlined, MoreOutlined } from '@ant-design/icons'
-import { App, Button, Card, Checkbox, Modal, Space } from 'antd'
+import { App, Button, Card, Modal, Space } from 'antd'
 import { deleteFileAction } from '@/app/explorer/actions'
 
 type EditContextType = {
@@ -62,17 +61,24 @@ export const FileItemCheckbox = ({ hrefDir }: { hrefDir: string }) => {
 
   return (
     selected && (
-      <Card style={{ position: 'absolute', width: '100%', height: '100%', zIndex: 1, background: 'rgba(0,0,0,.5)' }}>
-        <Checkbox
-          style={{ position: 'absolute', top: 5, left: 10 }}
-          onChange={() => toggleFile(hrefDir)}
-          checked={isInclude(hrefDir)}
-        />
+      <Card
+        style={{
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+          zIndex: 1,
+          background: isInclude(hrefDir) ? 'rgba(255, 215, 0, 0.6)' : 'rgba(0,0,0,.5)',
+          transition: 'background 0.3s ease',
+          cursor: 'pointer',
+        }}
+        onClick={() => toggleFile(hrefDir)}
+      >
         <Button
           style={{ position: 'absolute', top: 10, right: 10 }}
           icon={<DeleteOutlined />}
           danger
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation()
             modal.confirm({
               title: '确认删除',
               content: `你确定要删除文件 ${hrefDir} 吗？`,
