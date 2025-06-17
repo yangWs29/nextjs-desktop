@@ -28,7 +28,12 @@ const SocketHandler = (req: any, res: any) => {
 
       // 监听 reset-terminal-size 事件，并重置终端大小
       socket.on('reset-terminal-size', (data: { cols: number; rows: number }) => {
-        pty.resize(data.cols, data.rows)
+        try {
+          pty.resize(data.cols, data.rows)
+        } catch (error) {
+          console.error('Failed to resize terminal:', error)
+          socket.emit('terminal-error', 'Failed to resize terminal')
+        }
       })
 
       socket.on('terminal-input', (data) => {

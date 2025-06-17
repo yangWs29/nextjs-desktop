@@ -53,6 +53,11 @@ export default function Terminal({ currentPath }: { currentPath: string }) {
       term.write(data)
     })
 
+    //监听 socket.emit('terminal-error', 'Failed to resize terminal')
+    socket.on('terminal-error', (error: any) => {
+      console.log(error)
+    })
+
     terminal && (terminal.current = term)
 
     return () => {
@@ -61,9 +66,6 @@ export default function Terminal({ currentPath }: { currentPath: string }) {
       term.dispose()
     }
   }, [])
-
-  console.log('Rows:', terminal?.current?.rows)
-  console.log('Columns:', terminal?.current?.cols)
 
   return <div id="terminal" style={{ display: 'flex', flex: '1', overflow: 'hidden' }} ref={terminalRef} />
 }
