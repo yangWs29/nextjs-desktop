@@ -1,10 +1,10 @@
-import { readDirectoryFilesAction } from '@/app/explorer/utils/read-directory-files-action'
+import { readDirectoryFilesAction } from '@/app/explorer/_utils/read-directory-files-action'
 import path from 'path'
-import { isImage } from '@/app/explorer/utils/util'
+import { isImage } from '@/app/explorer/_utils/util'
 import { ImagePreviewProvider } from '@/app/explorer/image-preview-context'
-import FileListItem from '@/app/explorer/components/file-list/file-list-item'
+import FileListItem from '@/app/explorer/_components/file-list/file-list-item'
 import { cookies } from 'next/headers'
-import { ScrollContainer } from '@/app/explorer/components/scroll-container'
+import { ScrollContainer } from '@/app/explorer/_components/scroll-container'
 
 const FileList = async ({ currentPath = '' }: { currentPath: string }) => {
   const files = await readDirectoryFilesAction({ dirPath: currentPath })

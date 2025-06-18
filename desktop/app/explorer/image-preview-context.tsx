@@ -2,7 +2,7 @@
 import PreviewGroup from 'antd/es/image/PreviewGroup'
 import Image from 'next/image'
 import React, { createContext, useContext, useState } from 'react'
-import { pathJoin } from '@/app/explorer/utils/file-utils'
+import { pathJoin } from '@/app/explorer/_utils/file-utils'
 import imageLoader from '@/lib/image-loader'
 
 type PreviewContextType = {

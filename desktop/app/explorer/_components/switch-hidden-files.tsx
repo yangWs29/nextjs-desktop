@@ -1,6 +1,6 @@
 'use client'
 import { Switch } from 'antd'
-import { setHiddenFilesAction } from '@/app/explorer/components/set-hidden-files-action'
+import { setHiddenFilesAction } from '@/app/explorer/_components/set-hidden-files-action'
 
 const SwitchHiddenFiles = ({ initialHiddenFiles = true }: { initialHiddenFiles: boolean }) => {
   return (

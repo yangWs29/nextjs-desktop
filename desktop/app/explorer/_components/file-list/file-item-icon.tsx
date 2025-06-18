@@ -11,13 +11,13 @@ import {
   FolderOpenOutlined,
   VideoCameraOutlined,
 } from '@ant-design/icons'
-import { File } from '@/app/explorer/utils/read-directory-files-action'
+import { File } from '@/app/explorer/_utils/read-directory-files-action'
 import path from 'path'
 import { ImageItem } from '@/app/explorer/image-preview-context'
-import { isImage } from '@/app/explorer/utils/util'
+import { isImage } from '@/app/explorer/_utils/util'
 import { videoExtensionPattern } from '@/app/explorer/media/media-utils'
-import { isArchiveFile } from '@/app/explorer/utils/is-archive-file'
-import { formatFileSize, isTextFile } from '@/app/explorer/utils/file-utils'
+import { isArchiveFile } from '@/app/explorer/_utils/is-archive-file'
+import { formatFileSize, isTextFile } from '@/app/explorer/_utils/file-utils'
 import React from 'react'
 
 export function FileItemIcon(file: File) {

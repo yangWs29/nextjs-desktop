@@ -3,8 +3,8 @@
 import React, { useState } from 'react'
 import { Select, Spin } from 'antd'
 import { useRouter } from 'next/navigation'
-import { readDirectoryFilesAction } from '@/app/explorer/utils/read-directory-files-action'
-import { dirJoinAndEncode, pathJoin } from '@/app/explorer/utils/file-utils'
+import { readDirectoryFilesAction } from '@/app/explorer/_utils/read-directory-files-action'
+import { dirJoinAndEncode, pathJoin } from '@/app/explorer/_utils/file-utils'
 
 type SelectFoldersProps = {
   dirPath: string

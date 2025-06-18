@@ -9,7 +9,7 @@ import {
   createCertificate,
   downloadPfx,
 } from '@/app/certificates/actions'
-import CertificateForm from '@/app/certificates/components/CertificateForm'
+import CertificateForm from '@/app/certificates/_components/CertificateForm'
 
 const { Text } = Typography
 

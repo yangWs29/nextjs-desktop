@@ -1,20 +1,20 @@
 import React from 'react'
 import { Card, Divider, Flex, Space } from 'antd'
-import ExplorerBreadcrumb from '@/app/explorer/components/explorer-breadcrumb'
+import ExplorerBreadcrumb from '@/app/explorer/_components/explorer-breadcrumb'
 import { ActionsBtn, EditProvider } from '@/app/explorer/more-context'
-import { TerminalProvider } from '@/app/explorer/components/terminal/terminal-context'
-import HardDiskCapacity from '@/app/explorer/components/hard-disk-capacity'
-import { ChangeSortServer } from '@/app/explorer/components/change-sort'
+import { TerminalProvider } from '@/app/explorer/_components/terminal/terminal-context'
+import HardDiskCapacity from '@/app/explorer/_components/hard-disk-capacity'
+import { ChangeSortServer } from '@/app/explorer/_components/change-sort'
 import { cookies, headers } from 'next/headers'
 import { checkDiskUsageAction } from '@/app/explorer/actions'
-import { replaceDir } from '@/app/explorer/utils/file-utils'
-import SwitchHiddenFiles from '@/app/explorer/components/switch-hidden-files'
+import { replaceDir } from '@/app/explorer/_utils/file-utils'
+import SwitchHiddenFiles from '@/app/explorer/_components/switch-hidden-files'
 import {
   getHideHiddenOptionFromCookie,
   getSortOptionFromCookie,
-} from '@/app/explorer/utils/get-hide-hidden-option-from-cookie'
-import DirTree from '@/app/explorer/components/dir-tree'
-import ZoomSlider from '@/app/explorer/components/change-zoom'
+} from '@/app/explorer/_utils/get-hide-hidden-option-from-cookie'
+import DirTree from '@/app/explorer/_components/dir-tree'
+import ZoomSlider from '@/app/explorer/_components/change-zoom'
 
 async function FooterItem() {
   const headerList = await headers()

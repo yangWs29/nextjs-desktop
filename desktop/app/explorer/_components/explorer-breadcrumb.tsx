@@ -3,7 +3,7 @@ import React from 'react'
 import { Breadcrumb, Space } from 'antd'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { replaceDir } from '@/app/explorer/utils/file-utils'
+import { replaceDir } from '@/app/explorer/_utils/file-utils'
 import SelectFolders from '@/app/explorer/select-folders'
 import { HomeOutlined } from '@ant-design/icons'
 

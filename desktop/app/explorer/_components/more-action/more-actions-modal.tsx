@@ -3,12 +3,12 @@
 import { MoreOutlined } from '@ant-design/icons'
 import { Button, Drawer, Form, Select } from 'antd'
 import React, { useState } from 'react'
-import { File } from '@/app/explorer/utils/read-directory-files-action'
-import TerminalClient from '@/app/explorer/components/terminal/terminal-client'
-import { getSocket } from '@/app/explorer/utils/socket'
-import { useTerminal } from '@/app/explorer/components/terminal/terminal-context'
-import FileMoveForm from '@/app/explorer/components/more-action/file-move-form'
-import SevenZipExtractForm from '@/app/explorer/components/more-action/seven-zip-extract-form'
+import { File } from '@/app/explorer/_utils/read-directory-files-action'
+import TerminalClient from '@/app/explorer/_components/terminal/terminal-client'
+import { getSocket } from '@/app/explorer/_utils/socket'
+import { useTerminal } from '@/app/explorer/_components/terminal/terminal-context'
+import FileMoveForm from '@/app/explorer/_components/more-action/file-move-form'
+import SevenZipExtractForm from '@/app/explorer/_components/more-action/seven-zip-extract-form'
 
 const MoreActionsModal = ({
   file,

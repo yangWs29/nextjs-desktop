@@ -5,7 +5,7 @@ import fs from 'fs/promises'
 import {
   getHideHiddenOptionFromCookie,
   getSortOptionFromCookie,
-} from '@/app/explorer/utils/get-hide-hidden-option-from-cookie'
+} from '@/app/explorer/_utils/get-hide-hidden-option-from-cookie'
 
 export type File = {
   name: string

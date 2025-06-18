@@ -2,7 +2,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { List } from 'antd'
-import { dirJoinAndEncode } from '@/app/explorer/utils/file-utils'
+import { dirJoinAndEncode } from '@/app/explorer/_utils/file-utils'
 
 interface File {
   name: string

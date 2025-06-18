@@ -1,5 +1,5 @@
 import { Progress, Space } from 'antd'
-import { formatFileSize } from '@/app/explorer/utils/file-utils'
+import { formatFileSize } from '@/app/explorer/_utils/file-utils'
 
 const HardDiskCapacity = ({
   diskUsage: { total, free },

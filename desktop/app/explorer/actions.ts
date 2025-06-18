@@ -3,11 +3,11 @@
 import { cookies } from 'next/headers'
 
 export async function deleteFileAction(path: string[]) {
-  return await import('@/app/explorer/utils/delete-file').then((mod) => mod.deleteFile(path))
+  return await import('@/app/explorer/_utils/delete-file').then((mod) => mod.deleteFile(path))
 }
 
 export async function checkDiskUsageAction(path: string) {
-  return await import('@/app/explorer/utils/check-disk-usage').then((mod) =>
+  return await import('@/app/explorer/_utils/check-disk-usage').then((mod) =>
     mod.checkDiskUsage(decodeURIComponent(path)),
   )
 }

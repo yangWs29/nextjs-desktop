@@ -2,7 +2,7 @@ import React from 'react'
 import VideoPlayer from '@/app/explorer/media/video-player'
 import { Card, Flex } from 'antd'
 import { MediaList } from '@/app/explorer/media/media-list'
-import { readDirectoryFilesAction } from '@/app/explorer/utils/read-directory-files-action'
+import { readDirectoryFilesAction } from '@/app/explorer/_utils/read-directory-files-action'
 import path from 'path'
 import { playableVideoExtensions } from '@/app/explorer/media/media-utils'
 

@@ -1,7 +1,7 @@
 'use client'
 import { ExportOutlined } from '@ant-design/icons'
 import React from 'react'
-import { dirJoinAndEncode } from '@/app/explorer/utils/file-utils'
+import { dirJoinAndEncode } from '@/app/explorer/_utils/file-utils'
 import { useSelected } from '@/app/explorer/more-context'
 import Link from 'next/link'
 

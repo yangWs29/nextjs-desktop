@@ -9,7 +9,7 @@ import {
   getKeyPath,
   listCertificates,
   parseCertificate,
-} from '@/app/certificates/lib/certificateUtils'
+} from '@/app/certificates/_lib/certificateUtils'
 import path from 'path'
 import fs from 'fs/promises'
 import { revalidatePath } from 'next/cache'

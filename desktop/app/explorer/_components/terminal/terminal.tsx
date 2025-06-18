@@ -3,8 +3,8 @@ import { useEffect, useRef } from 'react'
 import { Terminal as XTerminal } from 'xterm'
 import { FitAddon } from 'xterm-addon-fit'
 import 'xterm/css/xterm.css'
-import { connectSocket } from '@/app/explorer/utils/socket'
-import { useTerminal } from '@/app/explorer/components/terminal/terminal-context'
+import { connectSocket } from '@/app/explorer/_utils/socket'
+import { useTerminal } from '@/app/explorer/_components/terminal/terminal-context'
 
 export default function Terminal({ currentPath }: { currentPath: string }) {
   const terminalRef = useRef<HTMLDivElement>(null)

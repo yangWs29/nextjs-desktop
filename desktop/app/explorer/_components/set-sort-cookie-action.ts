@@ -2,7 +2,7 @@
 
 import { cookies } from 'next/headers'
 import { revalidatePath } from 'next/cache'
-import { SortOptionType } from '@/app/explorer/utils/read-directory-files-action'
+import { SortOptionType } from '@/app/explorer/_utils/read-directory-files-action'
 
 export async function setSortCookieAction(sort: SortOptionType) {
   const cookieStore = await cookies()

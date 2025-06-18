@@ -1,7 +1,7 @@
 'use client'
 import { Form, Input, Button, Switch, Space } from 'antd'
-import BtnTreeSelectDir from '@/app/explorer/components/btn-tree-select-dir'
-import { pathJoin } from '@/app/explorer/utils/file-utils'
+import BtnTreeSelectDir from '@/app/explorer/_components/btn-tree-select-dir'
+import { pathJoin } from '@/app/explorer/_utils/file-utils'
 
 interface SevenZipExtractFormProps {
   fileName: string // 当前文件名

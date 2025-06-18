@@ -1,14 +1,14 @@
 import { Card } from 'antd'
 import { FileItemCheckbox } from '@/app/explorer/more-context'
 import path from 'path'
-import { FileItemIcon } from '@/app/explorer/components/file-list/file-item-icon'
+import { FileItemIcon } from '@/app/explorer/_components/file-list/file-item-icon'
 import Link from 'next/link'
-import { File } from '@/app/explorer/utils/read-directory-files-action'
-import MoreActionsModal from '@/app/explorer/components/more-action/more-actions-modal'
+import { File } from '@/app/explorer/_utils/read-directory-files-action'
+import MoreActionsModal from '@/app/explorer/_components/more-action/more-actions-modal'
 import React from 'react'
 import { isPlayableVideo } from '@/app/explorer/media/media-utils'
 import { app_config } from '@/app-config.mjs'
-import { dirJoinAndEncode } from '@/app/explorer/utils/file-utils'
+import { dirJoinAndEncode } from '@/app/explorer/_utils/file-utils'
 
 const FileListItem = ({ files, currentPath }: { files: File[]; currentPath: string }) => {
   return files.map((file, index) => {

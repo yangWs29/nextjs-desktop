@@ -1,6 +1,6 @@
 'use server'
 import { cookies } from 'next/headers'
-import { SortOptionType } from '@/app/explorer/utils/read-directory-files-action'
+import { SortOptionType } from '@/app/explorer/_utils/read-directory-files-action'
 
 export const getHideHiddenOptionFromCookie = async (): Promise<boolean> => {
   try {
