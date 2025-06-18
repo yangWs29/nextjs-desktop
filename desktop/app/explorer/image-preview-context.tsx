@@ -3,6 +3,7 @@ import PreviewGroup from 'antd/es/image/PreviewGroup'
 import Image from 'next/image'
 import React, { createContext, useContext, useState } from 'react'
 import { pathJoin } from '@/app/explorer/utils/file-utils'
+import imageLoader from '@/lib/image-loader'
 
 type PreviewContextType = {
   openPreview: (src: string) => void
@@ -71,14 +72,14 @@ export const ImageItem = ({ file_path }: { file_path: string }) => {
   return (
     <Image
       onClick={() => openPreview(file_path)}
-      src={`${pathJoin('/explorer/static/', encodeURIComponent(file_path))}`}
+      src={pathJoin(file_path)}
       alt={file_path}
       fill // 填充父容器
+      loader={imageLoader}
       style={{
         objectFit: 'cover',
         cursor: 'pointer',
       }}
-      unoptimized={file_path.endsWith('.gif')}
       sizes="360px"
     />
   )
