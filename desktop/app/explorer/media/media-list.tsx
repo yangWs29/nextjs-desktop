@@ -28,14 +28,16 @@ export const MediaList: React.FC<MediaListProps> = ({ videoFiles, mediaDir, file
             <div
               ref={(el) => {
                 if (file.name === fileName && el) {
-                  el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                  el.scrollIntoView({ block: 'center' })
                 }
               }}
               style={{
                 fontSize: '14px',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
-                fontWeight: file.name === fileName ? 'bold' : 'normal',
+                background: file.name === fileName ? 'rgba(255,255,255,.8)' : 'transparent',
+                borderRadius: file.name === fileName ? '4px' : '0',
+                padding: '4px 8px',
               }}
             >
               {file.name}
