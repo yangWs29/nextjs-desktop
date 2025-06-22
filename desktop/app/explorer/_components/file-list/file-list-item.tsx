@@ -12,7 +12,7 @@ import { dirJoinAndEncode } from '@/app/explorer/_utils/file-utils'
 
 const FileListItem = ({ files, currentPath }: { files: File[]; currentPath: string }) => {
   return files.map((file, index) => {
-    const CardItem = () => (
+    const CardItem = ({ href }: { href?: string }) => (
       <Card
         style={{ overflow: 'hidden' }}
         styles={{
@@ -25,7 +25,15 @@ const FileListItem = ({ files, currentPath }: { files: File[]; currentPath: stri
             padding: '5px 5px 5px 5px',
           },
         }}
-        cover={<FileItemIcon {...file} />}
+        cover={
+          href ? (
+            <Link href={href}>
+              <FileItemIcon {...file} />
+            </Link>
+          ) : (
+            <FileItemIcon {...file} />
+          )
+        }
       >
         <div
           title={file.name}
@@ -58,17 +66,15 @@ const FileListItem = ({ files, currentPath }: { files: File[]; currentPath: stri
         <MoreActionsModal currentPath={currentPath} file={file} baseDir={app_config.explorer_base_path} />
         <FileItemCheckbox hrefDir={path.join(currentPath || 'explorer', file.name)} />
 
-        {file.isDirectory ? (
-          <Link href={dirJoinAndEncode('/explorer', currentPath, file.name)}>
-            <CardItem />
-          </Link>
-        ) : isPlayableVideo(file.name) ? (
-          <Link href={dirJoinAndEncode('/explorer/media', currentPath, file.name)}>
-            <CardItem />
-          </Link>
-        ) : (
-          <CardItem />
-        )}
+        <CardItem
+          href={
+            file.isDirectory
+              ? dirJoinAndEncode('/explorer', currentPath, file.name)
+              : isPlayableVideo(file.name)
+                ? dirJoinAndEncode('/explorer/media', currentPath, file.name)
+                : undefined
+          }
+        />
       </div>
     )
   })
