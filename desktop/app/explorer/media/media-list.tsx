@@ -24,8 +24,13 @@ export const MediaList: React.FC<MediaListProps> = ({ videoFiles, mediaDir, file
     <List style={{ maxWidth: '240px', overflowY: 'auto' }}>
       {videoFiles.map((file, index) => (
         <List.Item key={index} style={{ padding: '8px' }}>
-          <Link href={dirJoinAndEncode('/explorer/media/', mediaDir, file.name)}>
+          <Link href={dirJoinAndEncode('/explorer/media/', mediaDir, file.name)} replace>
             <div
+              ref={(el) => {
+                if (file.name === fileName && el) {
+                  el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                }
+              }}
               style={{
                 fontSize: '14px',
                 overflow: 'hidden',
